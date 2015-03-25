@@ -5,14 +5,15 @@
 ## Login   <noel_h@epitech.net>
 ## 
 ## Started on  Wed Mar 25 10:36:32 2015 Pierre NOEL
-## Last update Wed Mar 25 10:39:21 2015 Pierre NOEL
+## Last update Wed Mar 25 11:53:32 2015 Pierre NOEL
 ##
 
 NAME_S			=		server
 
 NAME_C			=		client
 
-SRC_S			=		src_server/server.c
+SRC_S			=		src_server/main.c	\
+					src_server/error.c
 
 SRC_C			=		src_client/client.c
 
