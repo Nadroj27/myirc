@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Mar 25 14:38:36 2015 Pierre NOEL
-** Last update Sun Mar 29 21:21:26 2015 Pierre NOEL
+** Last update Sun Mar 29 22:55:28 2015 Pierre NOEL
 */
 
 #include	"server.h"
@@ -28,28 +28,27 @@ typedef struct	s_env
 /* buffer circulaire */
 void		client_read(t_env *e, int fd)
 {
-  //  int		r;
+  int		r;
   char		buf[4096];
   int		i;
   char		c;
 
   i = 0;
-  if (read(fd, &c, 1))
-    {
-      while (read(fd, &c, 1))
-	{
-	  buf[i % 4096] = c;
-	  i++;
-	}
-      buf[i % 4096] = '\0';
-      printf("Client %d: %s\n", fd, buf);
-    }
-  else
+  r = read(fd, buf, 4094);
+  buf[r] = 0;
+  printf("Client %d: %s\n", fd, buf);
+  if (!r)
     {
       printf("%d: Connection closed\n", fd);
       close(fd);
       e->fd_type[fd] = FD_FREE;
     }
+}
+
+void		client_write(t_env *e, int fd)
+{
+  printf("Write to  client\n");
+  write(fd, "202", 3);
 }
 
 void		add_client(t_env *e, int s)
@@ -62,7 +61,7 @@ void		add_client(t_env *e, int s)
   cs = accept(s, (struct sockaddr *)&client_sin, &client_sin_len);
   e->fd_type[cs] = FD_CLIENT;
   e->fct_read[cs] = client_read;
-  e->fct_write[cs] = NULL;
+  e->fct_write[cs] = client_write;
 }
 
 void		server_read(t_env *e, int fd)
@@ -102,7 +101,6 @@ int		main(int ac, char **av)
 
   if (ac != 2)
     my_error("Usage : ./server [port]", 0);
-
   memset(e.fd_type, FD_FREE, MAX_FD);
   e.port = atoi(av[1]);
   add_server(&e);
@@ -111,6 +109,7 @@ int		main(int ac, char **av)
   while (1)
     {
       FD_ZERO(&fd_read);
+      FD_ZERO(&fd_write);
       fd_max = 0;
       for (i = 0; i < MAX_FD; i++)
 	if (e.fd_type[i] != FD_FREE)
@@ -121,10 +120,17 @@ int		main(int ac, char **av)
 	  }
       if (select(fd_max + 1, &fd_read, &fd_write, NULL, &tv) == -1)
 	my_error("select failed", 1);
+
       for (i = 0; i < MAX_FD; i++)
 	if (FD_ISSET(i, &fd_read))
 	  e.fct_read[i](&e, i);
+      for (i = 0; i < MAX_FD; i++)
+	if (FD_ISSET(i, &fd_write))
+	  if (e.fct_write != NULL)
+	    e.fct_write[i](&e, i);
+
       printf("Waiting...\n");
+      sleep(2);
     }
   return (0);
 }
