@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Mar 25 11:14:36 2015 Pierre NOEL
-** Last update Wed Apr  1 09:55:08 2015 Jérémy MATHON
+** Last update Wed Apr  1 13:32:54 2015 Jérémy MATHON
 */
 
 #ifndef			_CLIENT_H_
@@ -43,5 +43,19 @@ void			command_in_the_map(t_map *, char **, int);
 char			**my_str_to_wordtab(char *str, char c);
 int			my_strnlen(char *str, char c);
 int			count_words(char *str, char c);
+
+/* FUNCTIONS IN MAP OBJECT */
+/* funct_user */
+void			connection_server(char *host, int port);
+void			msg_user(char *msg, char *user);
+void			change_nickname(char *nickname);
+void			list_user();
+/* funct_channel */
+void			list_channel(char *string);
+void			join_channel(char *chan);
+void			part_channel(char *chan);
+/* funct_file */
+void			send_file(char *nickname, int file);
+void			accept_file(char *nickname, int file);
 
 #endif			/* _CLIENT_H_ */
