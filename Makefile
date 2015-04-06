@@ -5,15 +5,18 @@
 ## Login   <noel_h@epitech.net>
 ## 
 ## Started on  Wed Mar 25 10:36:32 2015 Pierre NOEL
-## Last update Wed Apr  1 13:36:27 2015 Jérémy MATHON
+## Last update Mon Apr  6 17:19:13 2015 Pierre NOEL
 ##
 
 NAME_S			=		server
 
 NAME_C			=		client
 
-SRC_S			=		src_server/server.c	\
-					src_server/error.c
+SRC_S			=		src_server/server.c		\
+					src_server/error.c		\
+					src_server/read.c		\
+					src_server/command.c		\
+					src_server/command_make.c
 
 SRC_C			=		src_client/client.c		\
 					src_client/my_str_to_wordtab.c	\

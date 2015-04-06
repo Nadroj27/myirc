@@ -5,50 +5,42 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Mar 25 14:38:36 2015 Pierre NOEL
-** Last update Sun Mar 29 22:55:28 2015 Pierre NOEL
+** Last update Mon Apr  6 17:01:30 2015 Pierre NOEL
 */
 
 #include	"server.h"
-#define		FD_FREE 0
-#define		FD_CLIENT 1
-#define		FD_SERVER 2
-#define		MAX_FD 255
 
-typedef void(*fct)();
-
-typedef struct	s_env
-{
-  char		fd_type[MAX_FD]; // client ou server
-  fct		fct_read[MAX_FD];
-  fct		fct_write[MAX_FD];
-  int		port;
-}		t_env;
-
-
-/* buffer circulaire */
+/* buffer circulaire ???  */
 void		client_read(t_env *e, int fd)
 {
-  int		r;
-  char		buf[4096];
-  int		i;
-  char		c;
+  char		*msg;
+  t_cmd		*cmd;
 
-  i = 0;
-  r = read(fd, buf, 4094);
-  buf[r] = 0;
-  printf("Client %d: %s\n", fd, buf);
-  if (!r)
+  if (e)
     {
-      printf("%d: Connection closed\n", fd);
-      close(fd);
-      e->fd_type[fd] = FD_FREE;
+      msg = my_read_irc(fd);
+      printf("Client %d: %s\n", fd, msg);
+      if (strlen(msg) <= 1)
+	{
+	  printf("%d: Connection closed\n", fd);
+	  close(fd);
+	  e->fd_type[fd] = FD_FREE;
+	}
+      cmd = check_command(msg, 0, 1);
+      if (choose_cmd(cmd))
+	{
+	  //problem
+	}
     }
 }
 
 void		client_write(t_env *e, int fd)
 {
-  printf("Write to  client\n");
-  write(fd, "202", 3);
+  if (e)
+    {
+      printf("Write to  client\n");
+      write(fd, "202", 3);
+    }
 }
 
 void		add_client(t_env *e, int s)
