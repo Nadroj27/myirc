@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Mon Apr  6 15:57:25 2015 Pierre NOEL
-** Last update Mon Apr  6 17:18:40 2015 Pierre NOEL
+** Last update Mon Apr  6 18:51:25 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -69,7 +69,7 @@ t_list_cmd			*get_list_function(int opt)
   return (n);
 }
 
-int				choose_cmd(t_cmd *cmd)
+int				choose_cmd(t_env *e, t_cmd *cmd)
 {
   t_list_cmd			*list;
   t_list_cmd			*tmp;
@@ -81,9 +81,9 @@ int				choose_cmd(t_cmd *cmd)
       if (strcmp(tmp->name, cmd->cmd) == 0)
 	{
 	  if (tmp->fct != NULL)
-	    return (tmp->fct(cmd));
+	    return (tmp->fct(e, cmd));
 	  else
-	    printf("Fonction non implémentée");
+	    printf("Fonction non implémentée\n");
 	}
       tmp = tmp->next;
     }

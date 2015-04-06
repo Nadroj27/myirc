@@ -5,14 +5,14 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Mar 25 11:50:20 2015 Pierre NOEL
-** Last update Wed Mar 25 11:56:44 2015 Pierre NOEL
+** Last update Mon Apr  6 19:24:46 2015 Pierre NOEL
 */
 
 #include				"server.h"
 
 void					my_error(char *x, int opt)
 {
-  printf("Error : %s", x);
+  printf("[Error] %s", x);
   if (opt)
     printf(" : %s", strerror(errno));
   printf("\n");
