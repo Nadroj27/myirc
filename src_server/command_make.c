@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Mon Apr  6 15:57:25 2015 Pierre NOEL
-** Last update Wed Apr  8 17:28:04 2015 Pierre NOEL
+** Last update Thu Apr  9 15:29:40 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -93,7 +93,6 @@ int				choose_cmd(t_env *e, t_cmd *cmd, t_env *client)
 	}
       tmp = tmp->next;
     }
-  printf("Message classique");
   my_msg(e, cmd, client);
   return (0);
 }

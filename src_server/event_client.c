@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Mon Apr  6 18:17:47 2015 Pierre NOEL
-** Last update Mon Apr  6 19:13:18 2015 Pierre NOEL
+** Last update Thu Apr  9 15:46:17 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -19,7 +19,7 @@ t_env				*add_event(t_env **a, fct fct_read,
   if (a != NULL && *a != NULL)
     {
       tmp = *a;
-      while (tmp->next)
+      while (tmp && tmp->next)
 	tmp = tmp->next;
     }
   result = malloc(sizeof(t_env));
@@ -29,7 +29,7 @@ t_env				*add_event(t_env **a, fct fct_read,
   result->fct_write = fct_write;
   result->port = port;
   result->next = NULL;
-  if (a != NULL && *a != NULL)
+  if (a != NULL && *a != NULL && tmp != NULL)
     tmp->next = result;
   else
     *a = result;

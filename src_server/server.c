@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Mar 25 14:38:36 2015 Pierre NOEL
-** Last update Wed Apr  8 16:32:31 2015 Pierre NOEL
+** Last update Thu Apr  9 15:45:31 2015 Pierre NOEL
 */
 
 #include	"server.h"
@@ -39,13 +39,20 @@ void		client_read(t_env *e, int fd)
 void		client_write(t_env *e, int fd)
 {
   t_env		*client;
+  char		*info = malloc(512);
 
   client = find_by_id(e, fd);
   printf("Prepare to write !\n");
   if (client->return_code != NULL)
     {
       printf("Write to  client\n");
-      write(fd, client->return_code, strlen(client->return_code));
+      sprintf(info, ":%s!%s@%s %s",
+	      client->nickname,
+	      client->nickname,
+	      client->host_name,
+	      client->return_code);
+      printf("info  = %s\n", info);
+      write(fd, info, strlen(info));
       free(client->return_code);
       client->return_code = NULL;
     }
@@ -67,7 +74,7 @@ void		add_client(t_env *e, int s)
   a->id = cs;
   a->channel = NULL;
   a->nickname = NULL;
-  a->return_code = strdup("300\r\n");
+  a->return_code = NULL;
 }
 
 void		server_read(t_env *e, int fd)
@@ -171,6 +178,7 @@ int		main(int ac, char **av)
   if ((e = malloc(sizeof(t_env))) == NULL)
     my_error("Malloc failed", 0);
   e->port = atoi(av[1]);
+  e->next = NULL;
   add_server(e);
   tv.tv_sec = 20;
   tv.tv_usec = 0;

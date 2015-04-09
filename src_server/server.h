@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Mar 25 11:14:36 2015 Pierre NOEL
-** Last update Wed Apr  8 17:28:18 2015 Pierre NOEL
+** Last update Thu Apr  9 15:29:26 2015 Pierre NOEL
 */
 
 #ifndef			_SERVER_H_
@@ -39,7 +39,10 @@ typedef struct		s_env
   int			port;
   char			*channel;
   char			*nickname;
-  char			*return_code; //default 300
+  char			*real_name;
+  char			*host;
+  char			*host_name;
+  char			*return_code;
   struct s_env		*next;
 }			t_env;
 
@@ -67,6 +70,7 @@ int			choose_cmd(t_env *, t_cmd *, t_env *);
 t_env			*add_event(t_env **, fct, fct, int);
 t_env			*find_by_id(t_env *, int);
 void			dump(t_env *a);
+char			*xstrcat(char *dest, char *src);
 
 /* Commandes */
 

@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Apr  8 16:02:56 2015 Pierre NOEL
-** Last update Wed Apr  8 16:28:53 2015 Pierre NOEL
+** Last update Thu Apr  9 15:37:37 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -28,16 +28,12 @@ void				my_msg(t_env *e, t_cmd *cmd, t_env *client)
 {
   char				*message;
 
-  message = malloc(strlen(client->nickname) + strlen(cmd->full_cmd) + 10);
+
+  message = malloc(strlen(cmd->full_cmd + 3));
   if (message == NULL)
-    my_error("Malloc failed", 0);
-  message[0] = 0;
-  message = strcat(message, client->nickname);
-  message = strcat(message, " : ");
-  message = strcat(message, cmd->full_cmd);
-  message = strcat(message, "\r\n");
-  if (message == NULL)
-    my_error("Strcat Failed", 0);
+    my_error("Strdup failed", 0);
+  message = strcpy(message, cmd->full_cmd);
+  message = xstrcat(message, "\r\n");
   client->return_code = message;
   do_for_all_channel(message, e, client->channel);
 }

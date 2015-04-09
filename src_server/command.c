@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Mon Apr  6 15:00:33 2015 Pierre NOEL
-** Last update Wed Apr  8 16:08:47 2015 Pierre NOEL
+** Last update Thu Apr  9 13:57:16 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -54,7 +54,7 @@ static char			*get_n_word(char *str, int n, int i, int j)
 	  n_word++;
 	}
       else
-	if (n == n_word)
+	if (n == n_word && str[i] != ':')
 	  result[j++] = str[i];
       i++;
     }

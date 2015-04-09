@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Apr  8 14:25:22 2015 Pierre NOEL
-** Last update Wed Apr  8 16:19:41 2015 Pierre NOEL
+** Last update Thu Apr  9 14:19:03 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -41,8 +41,9 @@ void				my_nickname(t_env *e, t_cmd *cmd, t_env *client)
     client->return_code = strdup("433\r\n");
   else
     {
-      client->return_code = strdup("300\r\n");
+      //client->return_code = strdup("300\r\n");
       free(client->nickname);
       client->nickname = strdup(cmd->opt[0]);
+      client->nickname = NULL;
     }
 }
