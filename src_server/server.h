@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Mar 25 11:14:36 2015 Pierre NOEL
-** Last update Mon Apr  6 19:07:07 2015 Pierre NOEL
+** Last update Wed Apr  8 17:28:18 2015 Pierre NOEL
 */
 
 #ifndef			_SERVER_H_
@@ -36,9 +36,6 @@ typedef struct		s_env
   char			fd_type;
   fct			fct_read;
   fct			fct_write;
-  /*char			fd_type[MAX_FD];
-  fct			fct_read[MAX_FD];
-  fct			fct_write[MAX_FD];*/
   int			port;
   char			*channel;
   char			*nickname;
@@ -50,6 +47,7 @@ typedef struct		s_env
 
 typedef struct		s_cmd
 {
+  char			*full_cmd;
   char			*prefix;
   char			*cmd;
   char			*opt[16];
@@ -58,16 +56,23 @@ typedef struct		s_cmd
 typedef struct		s_list_cmd
 {
   char			*name;
-  int			(*fct)(t_env *, t_cmd*);
+  void			(*fct)(t_env *, t_cmd*, t_env*);
   struct s_list_cmd	*next;
 }			t_list_cmd;
 
 void			my_error(char *, int);
 char			*my_read_irc(int);
 t_cmd			*check_command(char *, int, int);
-int			choose_cmd(t_env *, t_cmd *);
+int			choose_cmd(t_env *, t_cmd *, t_env *);
 t_env			*add_event(t_env **, fct, fct, int);
 t_env			*find_by_id(t_env *, int);
 void			dump(t_env *a);
 
+/* Commandes */
+
+void			my_nickname(t_env*, t_cmd *, t_env *);
+void			my_list(t_env*, t_cmd *, t_env *);
+void			my_join(t_env*, t_cmd *, t_env *);
+void			my_msg(t_env*, t_cmd*, t_env *);
+void			my_user(t_env*, t_cmd*, t_env*);
 #endif			/* _SERVER_H_ */

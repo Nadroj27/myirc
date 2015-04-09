@@ -5,12 +5,14 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Mon Apr  6 15:57:25 2015 Pierre NOEL
-** Last update Mon Apr  6 18:51:25 2015 Pierre NOEL
+** Last update Wed Apr  8 17:28:04 2015 Pierre NOEL
 */
 
 #include			"server.h"
 
-void				add_list_function(t_list_cmd **a, const char *name, int (*fct)())
+void				add_list_function(t_list_cmd **a,
+						  const char *name,
+						  void (*fct)(t_env *, t_cmd *, t_env *))
 {
   t_list_cmd			*result;
   t_list_cmd			*tmp;
@@ -35,15 +37,16 @@ void				add_list_function(t_list_cmd **a, const char *name, int (*fct)())
 
 void			fill_list_function(t_list_cmd **a)
 {
-  add_list_function(a, "NICK", NULL); //nick
+  add_list_function(a, "NICK", my_nickname); //nick
   add_list_function(a, "LIST", NULL); //list
-  add_list_function(a, "JOIN", NULL); // join
+  add_list_function(a, "JOIN", my_join); // join
   add_list_function(a, "PART", NULL); //part
   add_list_function(a, "NAMES", NULL); //user
-  add_list_function(a, "", NULL); //message
+  //add_list_function(a, "", NULL); //message
   add_list_function(a, "PRIVMSG", NULL); //msg
-  add_list_function(a, "?", NULL); //snd file
-  add_list_function(a, "?", NULL); // accept_file
+  //add_list_function(a, "?", NULL); //snd file
+  //add_list_function(a, "?", NULL); // accept_file
+  add_list_function(a, "USER", my_user);
 }
 
 t_list_cmd			*get_list_function(int opt)
@@ -69,7 +72,7 @@ t_list_cmd			*get_list_function(int opt)
   return (n);
 }
 
-int				choose_cmd(t_env *e, t_cmd *cmd)
+int				choose_cmd(t_env *e, t_cmd *cmd, t_env *client)
 {
   t_list_cmd			*list;
   t_list_cmd			*tmp;
@@ -81,12 +84,16 @@ int				choose_cmd(t_env *e, t_cmd *cmd)
       if (strcmp(tmp->name, cmd->cmd) == 0)
 	{
 	  if (tmp->fct != NULL)
-	    return (tmp->fct(e, cmd));
+	    {
+	      tmp->fct(e, cmd, client);
+	      return (0);
+	    }
 	  else
 	    printf("Fonction non implémentée\n");
 	}
       tmp = tmp->next;
     }
-  //Commande non trouvée
-  return (1);
+  printf("Message classique");
+  my_msg(e, cmd, client);
+  return (0);
 }

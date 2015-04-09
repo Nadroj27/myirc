@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Mon Apr  6 14:19:40 2015 Pierre NOEL
-** Last update Mon Apr  6 14:51:45 2015 Pierre NOEL
+** Last update Wed Apr  8 16:31:52 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -54,6 +54,6 @@ char				*my_read_irc(int fd)
       i++;
     }
   printf("Problème read buffer");
-  buff[i] = 0;
-  return (buff);
+  free(buff);
+  return (NULL);
 }

@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Mar 25 14:38:36 2015 Pierre NOEL
-** Last update Mon Apr  6 19:35:50 2015 Pierre NOEL
+** Last update Wed Apr  8 16:32:31 2015 Pierre NOEL
 */
 
 #include	"server.h"
@@ -19,8 +19,7 @@ void		client_read(t_env *e, int fd)
 
   client = find_by_id(e, fd);
   msg = my_read_irc(fd);
-  printf("Client %d: %s\n", fd, msg);
-  if (strlen(msg) <= 1)
+  if (msg == NULL || strlen(msg) <= 1)
     {
       printf("%d: Connection closed\n", fd);
       close(fd);
@@ -28,9 +27,13 @@ void		client_read(t_env *e, int fd)
     }
   else
     {
+      printf("Client %d: %s\n", fd, msg);
       cmd = check_command(msg, 0, 1);
-      choose_cmd(e, cmd);
+      choose_cmd(e, cmd, client);
     }
+  if (msg != NULL)
+    free(msg);
+  // cmd à free;
 }
 
 void		client_write(t_env *e, int fd)
@@ -38,6 +41,7 @@ void		client_write(t_env *e, int fd)
   t_env		*client;
 
   client = find_by_id(e, fd);
+  printf("Prepare to write !\n");
   if (client->return_code != NULL)
     {
       printf("Write to  client\n");
@@ -63,7 +67,7 @@ void		add_client(t_env *e, int s)
   a->id = cs;
   a->channel = NULL;
   a->nickname = NULL;
-  a->return_code = strdup("NOTICE Franck Salut\r\n");
+  a->return_code = strdup("300\r\n");
 }
 
 void		server_read(t_env *e, int fd)
@@ -113,7 +117,6 @@ int		my_fd_set_list(t_env *e, fd_set *read, fd_set *write)
     {
       if (tmp->fd_type != FD_FREE)
 	{
-	  printf("On set\n");
 	  FD_SET(tmp->id, read);
 	  FD_SET(tmp->id, write);
 	  fd_max = tmp->id;
@@ -123,21 +126,6 @@ int		my_fd_set_list(t_env *e, fd_set *read, fd_set *write)
   return (fd_max);
 }
 
-void		my_fd_isset_read(t_env *e, fd_set *read)
-{
-  t_env		*tmp;
-
-  tmp = e;
-  while (tmp)
-    {
-      if (FD_ISSET(tmp->id, read))
-	{
-	  printf("ONLIT\n");
-	  tmp->fct_read(e, tmp->id);
-	}
-      tmp = tmp->next;
-    }
-}
 
 void		my_fd_isset_write(t_env *e, fd_set *write)
 {
@@ -147,8 +135,25 @@ void		my_fd_isset_write(t_env *e, fd_set *write)
   while (tmp)
     {
       if (FD_ISSET(tmp->id, write))
-	if (e->fct_write != NULL)
-	  e->fct_write(e, tmp->id);
+	{
+	  if (tmp->fct_write != NULL)
+	    tmp->fct_write(e, tmp->id);
+	}
+      tmp = tmp->next;
+    }
+}
+
+
+void		my_fd_isset(t_env *e, fd_set *read, fd_set *write)
+{
+  t_env		*tmp;
+
+  tmp = e;
+  while (tmp)
+    {
+      if (FD_ISSET(tmp->id, read))
+	tmp->fct_read(e, tmp->id);
+      my_fd_isset_write(e, write);
       tmp = tmp->next;
     }
 }
@@ -174,9 +179,8 @@ int		main(int ac, char **av)
       fd_max = my_fd_set_list(e, &fd_read, &fd_write);
       if (select(fd_max + 1, &fd_read, &fd_write, NULL, &tv) == -1)
 	my_error("select failed", 1);
-      my_fd_isset_read(e, &fd_read);
-      my_fd_isset_write(e, &fd_write);
-      dump(e);
+      my_fd_isset(e, &fd_read, &fd_write);
+      //      my_fd_isset_write(e, &fd_write);
       printf("Waiting...\n");
       sleep(2);
     }

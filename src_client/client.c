@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Sun Mar 29 22:34:24 2015 Pierre NOEL
-** Last update Wed Apr  1 09:54:04 2015 Jérémy MATHON
+** Last update Wed Apr  8 18:17:26 2015 Pierre NOEL
 */
 
 #include		"client.h"
@@ -48,7 +48,9 @@ void			check_input(int sfd)
   int			length;
 
   length = read(0, buff, 4095);
-  buff[length] = '\0';
+  buff[length] = '\r';
+  buff[length + 1] = '\n';
+  buff[length + 2] = 0;
   check_command(buff, sfd, length);
 }
 
@@ -74,9 +76,12 @@ int			main(int ac, char **av)
   if (connect(sfd, (struct sockaddr *) &my_addr,
 	      sizeof(my_addr)) ==  - 1)
     my_error("Failed to connect", 1);
-  ret = read(sfd, buffer, 4096);
-  buffer[ret] = 0;
-  printf("Connexion established : %s\n", buffer);
-  check_input(sfd);
+  while (1)
+    {
+      ret = read(sfd, buffer, 4096);
+      buffer[ret] = 0;
+      printf("Connexion established : %s\n", buffer);
+      check_input(sfd);
+    }
   return (0);
 }

@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Mon Apr  6 15:00:33 2015 Pierre NOEL
-** Last update Mon Apr  6 18:50:51 2015 Pierre NOEL
+** Last update Wed Apr  8 16:08:47 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -67,7 +67,8 @@ t_cmd				*check_command(char *str, int j, int n)
   char				*tmp;
 
   if ((result = malloc(sizeof(t_cmd))) == NULL)
-    my_error("FAiled to malloc", 0);
+    my_error("Failed to malloc", 0);
+  result->full_cmd = strdup(str);
   result->prefix = NULL;
   result->cmd = NULL;
   if (have_prefix(str))
@@ -84,6 +85,8 @@ t_cmd				*check_command(char *str, int j, int n)
       n++;
       free(tmp);
     }
+  while (j < 15)
+    result->opt[j++] = NULL;
   result->opt[j] = NULL;
   return (result);
 }

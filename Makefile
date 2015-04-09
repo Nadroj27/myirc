@@ -5,7 +5,7 @@
 ## Login   <noel_h@epitech.net>
 ## 
 ## Started on  Wed Mar 25 10:36:32 2015 Pierre NOEL
-## Last update Mon Apr  6 20:05:53 2015 Pierre NOEL
+## Last update Wed Apr  8 17:29:18 2015 Pierre NOEL
 ##
 
 NAME_S			=		server
@@ -17,7 +17,11 @@ SRC_S			=		src_server/server.c		\
 					src_server/read.c		\
 					src_server/command.c		\
 					src_server/command_make.c	\
-					src_server/event_client.c
+					src_server/event_client.c	\
+					src_server/nickname.c		\
+					src_server/join.c		\
+					src_server/msg.c		\
+					src_server/user.c
 
 SRC_C			=		src_client/client.c		\
 					src_client/my_str_to_wordtab.c	\
@@ -34,12 +38,12 @@ OBJ_C			=		$(SRC_C:.c=.o)
 
 CFLAGS			=		-W -Wall -Wextra -g
 
-all:			$(NAME_S) $(NAME_C)
+all:			server client
 
-$(NAME_S):		$(OBJ_S)
+server:			$(OBJ_S)
 			gcc -o $(NAME_S) $(OBJ_S) $(CFLAGS)
 
-$(NAME_C):		$(OBJ_C)
+client:			$(OBJ_C)
 			gcc -o $(NAME_C) $(OBJ_C) $(CFLAGS)
 
 clean:
