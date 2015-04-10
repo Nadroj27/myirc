@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Mar 25 11:14:36 2015 Pierre NOEL
-** Last update Thu Apr  9 15:29:26 2015 Pierre NOEL
+** Last update Fri Apr 10 15:17:30 2015 Pierre NOEL
 */
 
 #ifndef			_SERVER_H_
@@ -27,6 +27,7 @@
 # define		FD_CLIENT 1
 # define		FD_SERVER 2
 # define		MAX_FD 255
+# define		RETOUR_C "\r\n"
 
 typedef void(*fct)();
 
@@ -39,6 +40,7 @@ typedef struct		s_env
   int			port;
   char			*channel;
   char			*nickname;
+  char			*pseudo;
   char			*real_name;
   char			*host;
   char			*host_name;

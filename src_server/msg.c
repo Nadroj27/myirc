@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Apr  8 16:02:56 2015 Pierre NOEL
-** Last update Thu Apr  9 15:37:37 2015 Pierre NOEL
+** Last update Thu Apr  9 16:06:47 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -28,8 +28,7 @@ void				my_msg(t_env *e, t_cmd *cmd, t_env *client)
 {
   char				*message;
 
-
-  message = malloc(strlen(cmd->full_cmd + 3));
+  message = malloc(strlen(cmd->full_cmd) + 3);
   if (message == NULL)
     my_error("Strdup failed", 0);
   message = strcpy(message, cmd->full_cmd);

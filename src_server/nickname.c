@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Apr  8 14:25:22 2015 Pierre NOEL
-** Last update Thu Apr  9 14:19:03 2015 Pierre NOEL
+** Last update Fri Apr 10 14:57:39 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -18,7 +18,7 @@ static int			check_use(t_env *e, char *nickname)
   tmp = e;
   while (tmp)
     {
-      if (tmp->nickname != NULL)
+      if (tmp->fd_type == FD_CLIENT && tmp->nickname != NULL)
 	if (strcmp(tmp->nickname, nickname) == 0)
 	  return (1);
       tmp = tmp->next;
@@ -44,6 +44,6 @@ void				my_nickname(t_env *e, t_cmd *cmd, t_env *client)
       //client->return_code = strdup("300\r\n");
       free(client->nickname);
       client->nickname = strdup(cmd->opt[0]);
-      client->nickname = NULL;
+      //client->nickname = NULL;
     }
 }

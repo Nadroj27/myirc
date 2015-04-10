@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Mon Apr  6 14:19:40 2015 Pierre NOEL
-** Last update Wed Apr  8 16:31:52 2015 Pierre NOEL
+** Last update Fri Apr 10 15:23:18 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -41,19 +41,22 @@ char				*my_read_irc(int fd)
 
   buff = NULL;
   i = 0;
+  printf("lire");
   while (read(fd, &c, 1) > 0)
     {
       buff = my_realloc_irc(buff, 1);
       buff[i] = c;
       buff[i + 1] = 0;
-      if (i > 1 && buff[i - 1] == '\r' && buff[i] == '\n')
+      printf("Caractere = %d\n", c);
+      printf("BUff = %s\n", buff);
+      if (i > 1 && buff[i] == '\n')//buff[i - 1] == '\r' && buff[i] == '\n')
 	{
-	  buff[i - 1] = 0;
+	  buff[i] = 0;//buff[i - 1] = 0;
+	  //  printf("ok");
 	  return (buff);
 	}
       i++;
     }
-  printf("Problème read buffer");
   free(buff);
   return (NULL);
 }

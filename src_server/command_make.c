@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Mon Apr  6 15:57:25 2015 Pierre NOEL
-** Last update Thu Apr  9 15:29:40 2015 Pierre NOEL
+** Last update Fri Apr 10 14:45:15 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -22,7 +22,7 @@ void				add_list_function(t_list_cmd **a,
       tmp = *a;
       while (tmp->next)
 	tmp = tmp->next;
-    }
+   }
   result = malloc(sizeof(t_list_cmd));
   if (result == NULL)
     my_error("Failed to malloc", 0);
@@ -37,13 +37,12 @@ void				add_list_function(t_list_cmd **a,
 
 void			fill_list_function(t_list_cmd **a)
 {
-  add_list_function(a, "NICK", my_nickname); //nick
+  add_list_function(a, "NICK", my_nickname);
   add_list_function(a, "LIST", NULL); //list
-  add_list_function(a, "JOIN", my_join); // join
+  add_list_function(a, "JOIN", my_join);
   add_list_function(a, "PART", NULL); //part
   add_list_function(a, "NAMES", NULL); //user
-  //add_list_function(a, "", NULL); //message
-  add_list_function(a, "PRIVMSG", NULL); //msg
+  add_list_function(a, "PRIVMSG", my_msg); //msg
   //add_list_function(a, "?", NULL); //snd file
   //add_list_function(a, "?", NULL); // accept_file
   add_list_function(a, "USER", my_user);
@@ -93,6 +92,6 @@ int				choose_cmd(t_env *e, t_cmd *cmd, t_env *client)
 	}
       tmp = tmp->next;
     }
-  my_msg(e, cmd, client);
+  printf("Fonction non reconnue\n");
   return (0);
 }

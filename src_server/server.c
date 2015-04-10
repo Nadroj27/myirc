@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Mar 25 14:38:36 2015 Pierre NOEL
-** Last update Thu Apr  9 15:45:31 2015 Pierre NOEL
+** Last update Fri Apr 10 15:25:49 2015 Pierre NOEL
 */
 
 #include	"server.h"
@@ -19,7 +19,8 @@ void		client_read(t_env *e, int fd)
 
   client = find_by_id(e, fd);
   msg = my_read_irc(fd);
-  if (msg == NULL || strlen(msg) <= 1)
+  printf("okok");
+  if (msg == NULL || strlen(msg) < 1)
     {
       printf("%d: Connection closed\n", fd);
       close(fd);
@@ -42,14 +43,16 @@ void		client_write(t_env *e, int fd)
   char		*info = malloc(512);
 
   client = find_by_id(e, fd);
-  printf("Prepare to write !\n");
   if (client->return_code != NULL)
     {
       printf("Write to  client\n");
+      /*   sprintf(info, ":127.0.0.1 %s",
+	      client->return_code);
+ */
       sprintf(info, ":%s!%s@%s %s",
 	      client->nickname,
-	      client->nickname,
-	      client->host_name,
+	      client->pseudo,
+	      client->host,
 	      client->return_code);
       printf("info  = %s\n", info);
       write(fd, info, strlen(info));
@@ -73,7 +76,8 @@ void		add_client(t_env *e, int s)
   a->fd_type = FD_CLIENT;
   a->id = cs;
   a->channel = NULL;
-  a->nickname = NULL;
+  a->nickname = NULL;//strdup("Anonymous");
+  a->pseudo = NULL;strdup("Anonymous");
   a->return_code = NULL;
 }
 
@@ -177,6 +181,8 @@ int		main(int ac, char **av)
     my_error("Usage : ./server [port]", 0);
   if ((e = malloc(sizeof(t_env))) == NULL)
     my_error("Malloc failed", 0);
+  if (atoi(av[1]) <= 0) // et checker overflow A FAIRE
+    my_error("Port need to be positif and not overflow", 0);
   e->port = atoi(av[1]);
   e->next = NULL;
   add_server(e);
@@ -188,8 +194,6 @@ int		main(int ac, char **av)
       if (select(fd_max + 1, &fd_read, &fd_write, NULL, &tv) == -1)
 	my_error("select failed", 1);
       my_fd_isset(e, &fd_read, &fd_write);
-      //      my_fd_isset_write(e, &fd_write);
-      printf("Waiting...\n");
       sleep(2);
     }
   return (0);

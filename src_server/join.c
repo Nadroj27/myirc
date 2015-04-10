@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Apr  8 15:50:57 2015 Pierre NOEL
-** Last update Thu Apr  9 15:23:27 2015 Pierre NOEL
+** Last update Fri Apr 10 14:54:32 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -22,20 +22,22 @@ char				*getUser(t_env *e, char *channel, char *h, char *c)
   info = xstrcat(info, h);
   info = xstrcat(info, " 353 ");
   info = xstrcat(info, c);
-  info = xstrcat(info, " ");
+  info = xstrcat(info, " = ");
   info = xstrcat(info, channel);
   tmp = e;
   while (tmp)
     {
-      if (tmp->channel != NULL)
-	if (strcmp(tmp->channel, channel) == 0)
-	  {
-	    info = xstrcat(info, " :@");
-	    info = xstrcat(info, tmp->nickname);
-	  }
+      if (tmp->fd_type == FD_CLIENT && tmp->channel != NULL)
+	{
+	  if (strcmp(tmp->channel, channel) == 0)
+	    {
+	      info = xstrcat(info, " :@");
+	      info = xstrcat(info, tmp->nickname);
+	    }
+	}
       tmp = tmp->next;
     }
-  info = xstrcat(info, "\r\n");
+  info = xstrcat(info, RETOUR_C);
   return (info);
 }
 
@@ -52,7 +54,8 @@ char				*getEnd(char *n, char *c, char *h)
   info = xstrcat(info, n);
   info = xstrcat(info, " ");
   info = xstrcat(info, c);
-  info = xstrcat(info, " ::End of /NAMES list\r\n");
+  info = xstrcat(info, " :End of /NAMES list");
+  info = xstrcat(info, RETOUR_C);
   return (info);
 }
 
@@ -67,29 +70,16 @@ void				my_join(t_env *e, t_cmd *cmd, t_env *client)
 	{
 	  if ((client->return_code = malloc(1024)) == NULL)
 	    my_error("Malloc failed", 0);
-	  client->return_code[0] = 0;
 	  if (client->channel != NULL)
 	    free(client->channel);
 	  client->channel = strdup(cmd->opt[0]);
-	  if (0 > sprintf(client->return_code, "JOIN %s\r\n%s%s",
+	  if (0 > sprintf(client->return_code, "JOIN %s%s%s%s",
 			  cmd->opt[0],
+			  RETOUR_C,
 			  getUser(e, cmd->opt[0], "127.0.0.1", client->nickname),
 			  getEnd(client->nickname, cmd->opt[0],"127.0.0.1")))
 	    my_error("Failed to create response", 0);
-
-	  printf("%s\n", client->return_code);
-	  sleep(1);
-	  /*
-	    sprintf(client->return_code,
-	    "JOIN :%s\r\n:127.0.0.1 353 %s = %s :@%s\r\n
-	    :127.0.0.1 366 %s %s :End of /NAMES list\r\n",
-	    cmd->opt[0],
-	    client->nickname,
-	    cmd->opt[0],
-	    client->nickname,
-	    client->nickname,
-	    cmd->opt[0]);
-	    }*/
+	  //	  printf("%s\n", client->return_code);
 	}
     }
 }

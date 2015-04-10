@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Apr  8 17:26:40 2015 Pierre NOEL
-** Last update Thu Apr  9 14:15:15 2015 Pierre NOEL
+** Last update Fri Apr 10 15:17:20 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -17,7 +17,7 @@ void				my_user(t_env *e, t_cmd *cmd, t_env *client)
       if (cmd->opt[0] != NULL && cmd->opt[1] != NULL && cmd->opt[2]
 	  && cmd->opt[3] != NULL)
 	{
-	  client->nickname = strdup(cmd->opt[0]);
+	  client->pseudo = strdup(cmd->opt[0]);
 	  client->host = strdup(cmd->opt[1]);
 	  client->host_name = strdup(cmd->opt[2]);
 	  client->real_name = strdup(cmd->opt[3]);
