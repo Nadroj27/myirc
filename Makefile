@@ -5,7 +5,7 @@
 ## Login   <noel_h@epitech.net>
 ## 
 ## Started on  Wed Mar 25 10:36:32 2015 Pierre NOEL
-## Last update Thu Apr  9 15:10:11 2015 Pierre NOEL
+## Last update Thu Apr  9 17:13:07 2015 Jérémy MATHON
 ##
 
 NAME_S			=		server
@@ -30,6 +30,7 @@ SRC_C			=		src_client/client.c		\
 					src_client/funct_user.c		\
 					src_client/funct_channel.c	\
 					src_client/funct_file.c		\
+					src_client/funct_command.c	\
 					src_client/error.c
 
 

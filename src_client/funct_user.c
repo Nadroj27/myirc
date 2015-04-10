@@ -5,27 +5,40 @@
 ** Login   <mathon_j@mathonj>
 **
 ** Started on  Wed Apr  1 13:01:44 2015 Jérémy MATHON
-** Last update Wed Apr  1 13:29:13 2015 Jérémy MATHON
+** Last update Thu Apr  9 17:04:25 2015 Jérémy MATHON
 */
 
 #include	"client.h"
 
-void		connection_server(char *host, int port)
+int		connection_server(char **argv, int sfd)
 {
-
+  (void)argv;
+  (void)sfd;
+  return (0);
 }
 
-void		msg_user(char *msg, char *user)
+int		msg_user(char **argv, int sfd)
 {
-
+  return (0);
 }
 
-void		change_nickname(char *nickname)
+int		change_nickname(char **argv, int sfd)
 {
+  int		i;
+  char		*tmp;
 
+  i = 1;
+  tmp = malloc(sizeof(char) * 512);
+  strcpy(tmp, "NICK ");
+  strcat(tmp, argv[1]);
+  printf("JE CHANGE DE NICKNAME LOL\n");
+  tmp = modif_input(tmp);
+  write(sfd, tmp, strlen(tmp));
+  close(sfd);
+  return (0);
 }
 
-void		list_user()
+int		list_user(char **argv, int sfd)
 {
-
+  return (0);
 }

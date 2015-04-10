@@ -5,22 +5,22 @@
 ** Login   <mathon_j@mathonj>
 **
 ** Started on  Wed Apr  1 13:29:27 2015 Jérémy MATHON
-** Last update Wed Apr  1 13:31:23 2015 Jérémy MATHON
+** Last update Thu Apr  9 10:45:52 2015 Jérémy MATHON
 */
 
 #include	"client.h"
 
-void		list_channel(char *string)
+int		list_channel(char **argv, int sfd)
 {
 
 }
 
-void		join_channel(char *chan)
+int		join_channel(char **argv, int sfd)
 {
 
 }
 
-void		part_channel(char *chan)
+int		part_channel(char **argv, int sfd)
 {
 
 }

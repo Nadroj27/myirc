@@ -5,17 +5,17 @@
 ** Login   <mathon_j@mathonj>
 **
 ** Started on  Wed Apr  1 13:31:42 2015 Jérémy MATHON
-** Last update Wed Apr  1 13:32:29 2015 Jérémy MATHON
+** Last update Thu Apr  9 10:46:36 2015 Jérémy MATHON
 */
 
 #include	"client.h"
 
-void		send_file(char *nickname, int file)
+int		send_file(char **argv, int sfd)
 {
 
 }
 
-void		accept_file(char *nickname, int file)
+int		accept_file(char **argv, int sfd)
 {
 
 }
