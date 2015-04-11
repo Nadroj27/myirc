@@ -5,21 +5,31 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Fri Apr 10 16:31:41 2015 Pierre NOEL
-** Last update Fri Apr 10 16:56:48 2015 Pierre NOEL
+** Last update Sat Apr 11 15:09:16 2015 Pierre NOEL
 */
 
 #include			"server.h"
 #include			<math.h>
-/*
+
 static void			function_usual(unsigned int i,
 					       unsigned int nb,
 					       char *str,
 					       unsigned int j)
 {
-  str[j] = (nb / ((int)pow(10, i))) + '0';
-  str[j + 1] = 0;
-  if (i > 1)
-    function_usual(i - 1, nb / ((int)pow(10, i)), str, j + 1);
+  unsigned int			tmp;
+  unsigned int			tmp2;
+  unsigned int			power;
+
+  power = ((unsigned int)pow(10, i));
+  if (power > 0)
+    {
+      tmp = nb / power;
+      tmp2 = nb % power;
+      str[j] = tmp + '0';
+      str[j + 1] = 0;
+      if (i >= 1)
+	function_usual(i - 1, tmp2, str, j + 1);
+    }
 }
 
 char				*uint_to_char(unsigned int nb)
@@ -34,22 +44,21 @@ char				*uint_to_char(unsigned int nb)
       return (NULL);
     }
   i = 0;
-  tmp = nb / 10;
+  tmp = nb;// / 10;
   while (tmp)
     {
       i++;
       tmp /= 10;
     }
-  tmp = 0;
-  function_usual(i, nb, result, tmp);
+  function_usual(i - 1, nb, result, 0);
   return (result);
 }
-*/
+
 char				*append_two(char *str, char *str2)
 {
   char				*result;
 
-  result = malloc(strlen(str) + strlen(str2));
+  result = malloc(strlen(str) + strlen(str2) + 1);
   if (result == NULL)
     my_error("Malloc failed", 0);
   result[0] = 0;

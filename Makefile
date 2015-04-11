@@ -5,7 +5,7 @@
 ## Login   <noel_h@epitech.net>
 ## 
 ## Started on  Wed Mar 25 10:36:32 2015 Pierre NOEL
-## Last update Fri Apr 10 17:05:57 2015 Pierre NOEL
+## Last update Sat Apr 11 14:46:28 2015 Pierre NOEL
 ##
 
 NAME_S			=		server
@@ -49,7 +49,7 @@ CFLAGS			=		-W -Wall -Wextra -g
 all:			server client
 
 server:			$(OBJ_S)
-			gcc -o $(NAME_S) $(OBJ_S) $(CFLAGS)
+			gcc -o $(NAME_S) $(OBJ_S) $(CFLAGS) -lm
 
 client:			$(OBJ_C)
 			gcc -o $(NAME_C) $(OBJ_C) $(CFLAGS)

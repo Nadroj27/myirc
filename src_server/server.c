@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Mar 25 14:38:36 2015 Pierre NOEL
-** Last update Fri Apr 10 17:15:52 2015 Pierre NOEL
+** Last update Sat Apr 11 15:12:34 2015 Pierre NOEL
 */
 
 #include		"server.h"
@@ -55,8 +55,9 @@ int			main(int ac, char **av)
     {
       fd_max = my_fd_set_list(e, &fd_read, &fd_write);
       if (select(fd_max + 1, &fd_read, &fd_write, NULL, &tv) == -1)
-	my_error("select failed", 1);
-      my_fd_isset(e, &fd_read, &fd_write);
+	my_error_c("select failed", 1);
+      else
+	my_fd_isset(e, &fd_read, &fd_write);
     }
   return (0);
 }

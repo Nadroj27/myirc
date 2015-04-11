@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Fri Apr 10 16:59:05 2015 Pierre NOEL
-** Last update Fri Apr 10 17:01:37 2015 Pierre NOEL
+** Last update Sat Apr 11 15:05:23 2015 Pierre NOEL
 */
 
 #include				"server.h"
@@ -38,7 +38,7 @@ void					add_server(t_env *e)
   e->fct_write = NULL;
   e->channel = NULL;
   e->nickname = NULL;
-  e->host = NULL;
+  e->host = inet_ntoa(sin.sin_addr);
   e->host_name = NULL;
   e->pseudo = NULL;
   e->return_code = NULL;

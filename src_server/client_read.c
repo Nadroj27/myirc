@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Fri Apr 10 16:26:03 2015 Pierre NOEL
-** Last update Fri Apr 10 16:30:16 2015 Pierre NOEL
+** Last update Sat Apr 11 15:10:27 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -43,6 +43,8 @@ void				client_read(t_env *e, int fd)
   if (msg == NULL || strlen(msg) < 1)
     {
       printf("%d: Connection closed\n", fd);
+      if (msg != NULL)
+	free(msg);
       close(fd);
       client->fd_type = FD_FREE;
     }
@@ -51,6 +53,6 @@ void				client_read(t_env *e, int fd)
       printf("Client %d: %s\n", fd, msg);
       cmd = check_command(msg, 0, 1);
       choose_cmd(e, cmd, client);
+      free_cmd(cmd, msg);
     }
-  free_cmd(cmd, msg);
 }

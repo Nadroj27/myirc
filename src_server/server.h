@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Mar 25 11:14:36 2015 Pierre NOEL
-** Last update Fri Apr 10 17:05:39 2015 Pierre NOEL
+** Last update Sat Apr 11 15:12:02 2015 Pierre NOEL
 */
 
 #ifndef			_SERVER_H_
@@ -67,6 +67,7 @@ typedef struct		s_list_cmd
 }			t_list_cmd;
 
 void			my_error(char *, int);
+void			my_error_c(char *, int);
 char			*my_read_irc(int);
 t_cmd			*check_command(char *, int, int);
 int			choose_cmd(t_env *, t_cmd *, t_env *);
@@ -78,7 +79,7 @@ void			client_write(t_env *, int);
 void			client_read(t_env*, int);
 char			*append_two(char *, char *);
 void			add_client(t_env *, int);
-//char			*uint_to_char(unsigned int );
+char			*uint_to_char(unsigned int );
 void			server_read(t_env *e, int fd);
 void			add_server(t_env *e);
 int			my_fd_set_list(t_env *, fd_set *, fd_set *);
