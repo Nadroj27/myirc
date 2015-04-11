@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Mon Apr  6 15:57:25 2015 Pierre NOEL
-** Last update Fri Apr 10 14:45:15 2015 Pierre NOEL
+** Last update Sat Apr 11 15:24:53 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -38,15 +38,18 @@ void				add_list_function(t_list_cmd **a,
 void			fill_list_function(t_list_cmd **a)
 {
   add_list_function(a, "NICK", my_nickname);
-  add_list_function(a, "LIST", NULL); //list
+  add_list_function(a, "LIST", NULL);
   add_list_function(a, "JOIN", my_join);
-  add_list_function(a, "PART", NULL); //part
-  add_list_function(a, "NAMES", NULL); //user
-  add_list_function(a, "PRIVMSG", my_msg); //msg
-  //add_list_function(a, "?", NULL); //snd file
-  //add_list_function(a, "?", NULL); // accept_file
+  add_list_function(a, "PART", NULL);
+  add_list_function(a, "NAMES", NULL);
+  add_list_function(a, "PRIVMSG", my_msg);
   add_list_function(a, "USER", my_user);
 }
+
+/*
+** add_list_function(a, "?", NULL); //snd file
+** add_list_function(a, "?", NULL); // accept_file
+*/
 
 t_list_cmd			*get_list_function(int opt)
 {
@@ -92,6 +95,6 @@ int				choose_cmd(t_env *e, t_cmd *cmd, t_env *client)
 	}
       tmp = tmp->next;
     }
-  printf("Fonction non reconnue\n");
+  my_msg(e, cmd, client);
   return (0);
 }
