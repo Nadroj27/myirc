@@ -5,11 +5,11 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Fri Apr 10 16:31:41 2015 Pierre NOEL
-** Last update Sat Apr 11 15:09:16 2015 Pierre NOEL
+** Last update Sun Apr 12 19:46:05 2015 Pierre NOEL
 */
 
-#include			"server.h"
 #include			<math.h>
+#include			"server.h"
 
 static void			function_usual(unsigned int i,
 					       unsigned int nb,
@@ -44,7 +44,7 @@ char				*uint_to_char(unsigned int nb)
       return (NULL);
     }
   i = 0;
-  tmp = nb;// / 10;
+  tmp = nb;
   while (tmp)
     {
       i++;

@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Fri Apr 10 17:03:14 2015 Pierre NOEL
-** Last update Sun Apr 12 19:36:12 2015 Pierre NOEL
+** Last update Sun Apr 12 19:46:54 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -34,7 +34,6 @@ int				my_fd_set_list(t_env *e,
   return (fd_max);
 }
 
-
 void				my_fd_isset_write(t_env *e,
 						  fd_set *write)
 {
@@ -51,7 +50,6 @@ void				my_fd_isset_write(t_env *e,
       tmp = tmp->next;
     }
 }
-
 
 void				my_fd_isset(t_env *e,
 					    fd_set *read,

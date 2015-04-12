@@ -5,12 +5,15 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Apr  8 15:50:57 2015 Pierre NOEL
-** Last update Sun Apr 12 15:01:51 2015 Pierre NOEL
+** Last update Sun Apr 12 19:43:28 2015 Pierre NOEL
 */
 
 #include			"server.h"
 
-char				*getUser(t_env *e, char *channel, char *h, char *c)
+char				*getUser(t_env *e,
+					 char *channel,
+					 char *h,
+					 char *c)
 {
   t_env				*tmp;
   char				*info;
@@ -18,12 +21,9 @@ char				*getUser(t_env *e, char *channel, char *h, char *c)
   if ((info = malloc(512)) == NULL)
     my_error("Malloc failed", 0);
   info[0] = 0;
-  info = xstrcat(info, ":");
-  info = xstrcat(info, h);
-  info = xstrcat(info, " 353 ");
-  info = xstrcat(info, c);
-  info = xstrcat(info, " = ");
-  info = xstrcat(info, channel);
+  if (0 > sprintf(info, ":%s 353 %s = %s",
+		  h, c, channel))
+    my_error_c("Unable to make response");
   tmp = e;
   while (tmp)
     {
@@ -59,8 +59,9 @@ char				*getEnd(char *n, char *c, char *h)
   return (info);
 }
 
-
-void				my_join(t_env *e, t_cmd *cmd, t_env *client)
+void				my_join(t_env *e,
+					t_cmd *cmd,
+					t_env *client)
 {
   if (e)
     {
@@ -79,7 +80,6 @@ void				my_join(t_env *e, t_cmd *cmd, t_env *client)
 			  getUser(e, cmd->opt[0], "127.0.0.1", client->nickname),
 			  getEnd(client->nickname, cmd->opt[0],"127.0.0.1")))
 	    my_error_c("Failed to create response", 0);
-	  //	  printf("%s\n", client->return_code);
 	}
     }
 }

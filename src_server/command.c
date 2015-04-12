@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Mon Apr  6 15:00:33 2015 Pierre NOEL
-** Last update Fri Apr 10 14:45:38 2015 Pierre NOEL
+** Last update Sun Apr 12 19:39:14 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -72,10 +72,7 @@ t_cmd				*check_command(char *str, int j, int n)
   result->prefix = NULL;
   result->cmd = NULL;
   if (have_prefix(str))
-    {
-      result->prefix = get_n_word(str, n, 0, 0);
-      n++;
-    }
+    result->prefix = get_n_word(str, n++, 0, 0);
   result->cmd = get_n_word(str, n, 0, 0);
   n++;
   while ((tmp = get_n_word(str, n, 0, 0)) != NULL && j < 15)

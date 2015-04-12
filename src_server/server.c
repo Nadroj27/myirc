@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Mar 25 14:38:36 2015 Pierre NOEL
-** Last update Sat Apr 11 15:12:34 2015 Pierre NOEL
+** Last update Sun Apr 12 19:44:59 2015 Pierre NOEL
 */
 
 #include		"server.h"
@@ -43,11 +43,9 @@ int			main(int ac, char **av)
     my_error("Usage : ./server [port]", 0);
   if ((e = malloc(sizeof(t_env))) == NULL)
     my_error("Malloc failed", 0);
-  if (parse_arguments(av[1], "2147483648")
-      || atoi(av[1]) <= 0)
+  if (parse_arguments(av[1], "2147483648") || atoi(av[1]) <= 0)
     my_error("Port need to be positif and not overflow", 0);
   e->port = atoi(av[1]);
-  e->next = NULL;
   add_server(e);
   tv.tv_sec = 20;
   tv.tv_usec = 0;

@@ -5,14 +5,16 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Mon Apr  6 15:57:25 2015 Pierre NOEL
-** Last update Sun Apr 12 18:27:20 2015 Pierre NOEL
+** Last update Sun Apr 12 19:39:41 2015 Pierre NOEL
 */
 
 #include			"server.h"
 
 void				add_list_function(t_list_cmd **a,
 						  const char *name,
-						  void (*fct)(t_env *, t_cmd *, t_env *))
+						  void (*fct)(t_env *,
+							      t_cmd *,
+							      t_env *))
 {
   t_list_cmd			*result;
   t_list_cmd			*tmp;
@@ -22,7 +24,7 @@ void				add_list_function(t_list_cmd **a,
       tmp = *a;
       while (tmp->next)
 	tmp = tmp->next;
-   }
+    }
   result = malloc(sizeof(t_list_cmd));
   if (result == NULL)
     my_error("Failed to malloc", 0);

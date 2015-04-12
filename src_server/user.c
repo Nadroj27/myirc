@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Apr  8 17:26:40 2015 Pierre NOEL
-** Last update Fri Apr 10 15:17:20 2015 Pierre NOEL
+** Last update Sun Apr 12 19:45:12 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -29,5 +29,4 @@ void				my_user(t_env *e, t_cmd *cmd, t_env *client)
       else
 	client->return_code = strdup("461\r\n");
     }
-  //client->return_code = strdup("300\r\n");
 }
