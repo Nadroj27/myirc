@@ -5,12 +5,12 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Fri Apr 10 16:26:03 2015 Pierre NOEL
-** Last update Sat Apr 11 15:10:27 2015 Pierre NOEL
+** Last update Sun Apr 12 13:59:17 2015 Pierre NOEL
 */
 
 #include			"server.h"
 
-void				free_cmd(t_cmd *cmd, char *msg)
+static void	       		free_cmd(t_cmd *cmd, char *msg)
 {
   int				i;
 
@@ -32,6 +32,37 @@ void				free_cmd(t_cmd *cmd, char *msg)
   free(cmd);
 }
 
+static int			delete_client(t_env *e, t_env *client)
+{
+  t_env				*tmp;
+  if (client->channel != NULL)
+    free(client->channel);
+  if (client->nickname != NULL)
+    free(client->nickname);
+  if (client->pseudo != NULL)
+    free(client->pseudo);
+  if (client->real_name != NULL)
+    free(client->real_name);
+  /* if (client->host != NULL)
+    free(client->host);
+  if (client->host_name != NULL)
+    free(client->host_name);
+  if (client->return_code != NULL)
+  free(client->return_code);*/
+  tmp = e;
+  while (tmp)
+    {
+      if (tmp->next != NULL && tmp->next == client)
+	{
+	  tmp->next = client->next;
+	  free(client);
+	  return (0);
+	}
+      tmp = tmp->next;
+    }
+  return (1);
+}
+
 void				client_read(t_env *e, int fd)
 {
   char				*msg;
@@ -46,7 +77,7 @@ void				client_read(t_env *e, int fd)
       if (msg != NULL)
 	free(msg);
       close(fd);
-      client->fd_type = FD_FREE;
+      delete_client(e, client);
     }
   else
     {

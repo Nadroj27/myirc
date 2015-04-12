@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Mar 25 11:14:36 2015 Pierre NOEL
-** Last update Sat Apr 11 15:12:02 2015 Pierre NOEL
+** Last update Sun Apr 12 13:58:54 2015 Pierre NOEL
 */
 
 #ifndef			_SERVER_H_
@@ -48,8 +48,6 @@ typedef struct		s_env
   char			*return_code;
   struct s_env		*next;
 }			t_env;
-
-
 
 typedef struct		s_cmd
 {
