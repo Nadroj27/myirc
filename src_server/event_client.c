@@ -5,23 +5,20 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Mon Apr  6 18:17:47 2015 Pierre NOEL
-** Last update Thu Apr  9 15:46:17 2015 Pierre NOEL
+** Last update Sun Apr 12 18:57:44 2015 Pierre NOEL
 */
 
 #include			"server.h"
 
-t_env				*add_event(t_env **a, fct fct_read,
-					  fct fct_write, int port)
+t_env				*add_event(t_env *a, fct2 fct_read,
+					   fct fct_write, int port)
 {
   t_env				*result;
   t_env				*tmp;
 
-  if (a != NULL && *a != NULL)
-    {
-      tmp = *a;
-      while (tmp && tmp->next)
-	tmp = tmp->next;
-    }
+  tmp = a;
+  while (tmp->next)
+    tmp = tmp->next;
   result = malloc(sizeof(t_env));
   if (result == NULL)
     my_error("Failed to malloc", 0);
@@ -29,10 +26,7 @@ t_env				*add_event(t_env **a, fct fct_read,
   result->fct_write = fct_write;
   result->port = port;
   result->next = NULL;
-  if (a != NULL && *a != NULL && tmp != NULL)
-    tmp->next = result;
-  else
-    *a = result;
+  tmp->next = result;
   return (result);
 }
 

@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Mar 25 11:14:36 2015 Pierre NOEL
-** Last update Sun Apr 12 14:57:02 2015 Pierre NOEL
+** Last update Sun Apr 12 19:30:20 2015 Pierre NOEL
 */
 
 #ifndef			_SERVER_H_
@@ -36,8 +36,8 @@ typedef struct		s_env
 {
   int			id;
   char			fd_type;
-  fct			fct_read;
-  fct			fct_write;
+  struct s_env		*(*fct_read)();
+  void			(*fct_write)();
   int			port;
   char			*channel;
   char			*nickname;
@@ -48,6 +48,8 @@ typedef struct		s_env
   char			*return_code;
   struct s_env		*next;
 }			t_env;
+
+typedef t_env*(*fct2)();
 
 typedef struct		s_cmd
 {
@@ -69,16 +71,16 @@ void			my_error_c(char *, int);
 char			*my_read_irc(int);
 t_cmd			*check_command(char *, int, int);
 int			choose_cmd(t_env *, t_cmd *, t_env *);
-t_env			*add_event(t_env **, fct, fct, int);
+t_env			*add_event(t_env *, fct2, fct, int);
 t_env			*find_by_id(t_env *, int);
 void			dump(t_env *a);
 char			*xstrcat(char *dest, char *src);
 void			client_write(t_env *, int);
-void			client_read(t_env*, int);
+t_env			*client_read(t_env*, int);
 char			*append_two(char *, char *);
 void			add_client(t_env *, int);
 char			*uint_to_char(unsigned int );
-void			server_read(t_env *e, int fd);
+t_env			*server_read(t_env *e, int fd);
 void			add_server(t_env *e);
 int			my_fd_set_list(t_env *, fd_set *, fd_set *);
 void			my_fd_isset_write(t_env *, fd_set *);

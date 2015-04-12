@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Mon Apr  6 15:57:25 2015 Pierre NOEL
-** Last update Sun Apr 12 14:54:02 2015 Pierre NOEL
+** Last update Sun Apr 12 18:27:20 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -83,16 +83,17 @@ int				choose_cmd(t_env *e, t_cmd *cmd, t_env *client)
   tmp = list;
   while (tmp != NULL)
     {
-      if (strcmp(tmp->name, cmd->cmd) == 0)
-	{
-	  if (tmp->fct != NULL)
-	    {
-	      tmp->fct(e, cmd, client);
-	      return (0);
-	    }
-	  else
-	    printf("Fonction non implémentée\n");
-	}
+      if (cmd->cmd != NULL)
+	if (strcmp(tmp->name, cmd->cmd) == 0)
+	  {
+	    if (tmp->fct != NULL)
+	      {
+		tmp->fct(e, cmd, client);
+		return (0);
+	      }
+	    else
+	      printf("Fonction non implémentée\n");
+	  }
       tmp = tmp->next;
     }
   my_msg(e, cmd, client);

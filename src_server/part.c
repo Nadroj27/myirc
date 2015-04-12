@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Apr  8 16:40:41 2015 Pierre NOEL
-** Last update Sun Apr 12 15:02:05 2015 Pierre NOEL
+** Last update Sun Apr 12 19:19:32 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -17,6 +17,7 @@ void				my_part(t_env *e, t_cmd *cmd, t_env *client)
       if (strcmp(client->channel, cmd->opt[0]) == 0)
 	{
 	  free(client->channel);
+	  client->channel = NULL;
 	  if ((client->return_code = malloc(512)) == NULL)
 	    my_error("Malloc failed", 0);
 	  if (0 > sprintf(client->return_code, "PART %s%s",

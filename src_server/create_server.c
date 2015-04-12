@@ -5,15 +5,29 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Fri Apr 10 16:59:05 2015 Pierre NOEL
-** Last update Sat Apr 11 15:05:23 2015 Pierre NOEL
+** Last update Sun Apr 12 19:30:33 2015 Pierre NOEL
 */
 
 #include				"server.h"
 
-void					server_read(t_env *e, int fd)
+t_env					*server_read(t_env *e, int fd)
 {
   printf("New Client\n");
   add_client(e, fd);
+  return (e->next);
+}
+
+static void				initialise_serv(t_env *e)
+{
+  e->fct_read = server_read;
+  e->fct_write = NULL;
+  e->channel = NULL;
+  e->nickname = NULL;
+  e->real_name = NULL;
+  e->host_name = NULL;
+  e->pseudo = NULL;
+  e->return_code = NULL;
+  e->next = NULL;
 }
 
 void					add_server(t_env *e)
@@ -34,14 +48,7 @@ void					add_server(t_env *e)
   if (listen(s, 42) == -1)
     my_error("Failed to listen", 1);
   e->fd_type = FD_SERVER;
-  e->fct_read = server_read;
-  e->fct_write = NULL;
-  e->channel = NULL;
-  e->nickname = NULL;
   e->host = inet_ntoa(sin.sin_addr);
-  e->host_name = NULL;
-  e->pseudo = NULL;
-  e->return_code = NULL;
-  e->next = NULL;
   e->id = s;
+  initialise_serv(e);
 }

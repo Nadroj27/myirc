@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Fri Apr 10 17:03:14 2015 Pierre NOEL
-** Last update Fri Apr 10 17:04:31 2015 Pierre NOEL
+** Last update Sun Apr 12 19:36:12 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -58,13 +58,15 @@ void				my_fd_isset(t_env *e,
 					    fd_set *write)
 {
   t_env				*tmp;
+  t_env				*opt;
 
   tmp = e;
   while (tmp)
     {
+      opt = tmp->next;
       if (FD_ISSET(tmp->id, read))
 	tmp->fct_read(e, tmp->id);
       my_fd_isset_write(e, write);
-      tmp = tmp->next;
+      tmp = opt;
     }
 }

@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Fri Apr 10 16:30:37 2015 Pierre NOEL
-** Last update Sun Apr 12 13:58:50 2015 Pierre NOEL
+** Last update Sun Apr 12 18:52:26 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -23,7 +23,7 @@ void				add_client(t_env *e, int s)
     my_error_c("Failed to accept", 1);
   else
     {
-      a = add_event(&e, client_read, client_write, ntohs(client_sin.sin_port));
+      a = add_event(e, client_read, client_write, ntohs(client_sin.sin_port));
       a->fd_type = FD_CLIENT;
       a->id = cs;
       a->channel = NULL;
@@ -32,5 +32,7 @@ void				add_client(t_env *e, int s)
       a->host = inet_ntoa(client_sin.sin_addr);
       a->host_name = NULL;
       a->return_code = NULL;
+      a->real_name = NULL;
+      a->next = NULL;
     }
 }

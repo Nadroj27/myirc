@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Fri Apr 10 16:26:03 2015 Pierre NOEL
-** Last update Sun Apr 12 13:59:17 2015 Pierre NOEL
+** Last update Sun Apr 12 19:28:48 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -32,9 +32,10 @@ static void	       		free_cmd(t_cmd *cmd, char *msg)
   free(cmd);
 }
 
-static int			delete_client(t_env *e, t_env *client)
+static t_env			*delete_client(t_env *e, t_env *client)
 {
   t_env				*tmp;
+
   if (client->channel != NULL)
     free(client->channel);
   if (client->nickname != NULL)
@@ -43,12 +44,6 @@ static int			delete_client(t_env *e, t_env *client)
     free(client->pseudo);
   if (client->real_name != NULL)
     free(client->real_name);
-  /* if (client->host != NULL)
-    free(client->host);
-  if (client->host_name != NULL)
-    free(client->host_name);
-  if (client->return_code != NULL)
-  free(client->return_code);*/
   tmp = e;
   while (tmp)
     {
@@ -56,14 +51,14 @@ static int			delete_client(t_env *e, t_env *client)
 	{
 	  tmp->next = client->next;
 	  free(client);
-	  return (0);
+	  return (tmp->next);
 	}
       tmp = tmp->next;
     }
-  return (1);
+  return (NULL);
 }
 
-void				client_read(t_env *e, int fd)
+t_env				*client_read(t_env *e, int fd)
 {
   char				*msg;
   t_cmd				*cmd;
@@ -77,7 +72,7 @@ void				client_read(t_env *e, int fd)
       if (msg != NULL)
 	free(msg);
       close(fd);
-      delete_client(e, client);
+      return (delete_client(e, client));
     }
   else
     {
@@ -86,4 +81,5 @@ void				client_read(t_env *e, int fd)
       choose_cmd(e, cmd, client);
       free_cmd(cmd, msg);
     }
+  return (client->next);
 }
