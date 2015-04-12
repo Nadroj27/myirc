@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Apr  8 15:50:57 2015 Pierre NOEL
-** Last update Sun Apr 12 19:43:28 2015 Pierre NOEL
+** Last update Sun Apr 12 21:03:21 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -23,7 +23,7 @@ char				*getUser(t_env *e,
   info[0] = 0;
   if (0 > sprintf(info, ":%s 353 %s = %s",
 		  h, c, channel))
-    my_error_c("Unable to make response");
+    my_error_c("Unable to make response", 1);
   tmp = e;
   while (tmp)
     {
