@@ -5,12 +5,12 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Mon Apr  6 14:19:40 2015 Pierre NOEL
-** Last update Sun Apr 12 14:06:50 2015 Pierre NOEL
+** Last update Sun Apr 12 14:53:02 2015 Pierre NOEL
 */
 
 #include			"server.h"
 
-char				*my_realloc_irc(char *str, int size)
+static char	       		*my_realloc_irc(char *str, int size)
 {
   char				*tmp;
   int				size_base;
@@ -42,24 +42,18 @@ char				*my_read_irc(int fd)
 
   buff = NULL;
   i = 0;
-  //printf("lire");
   while ((ret = read(fd, &c, 1)) > 0)
     {
       buff = my_realloc_irc(buff, 1);
       buff[i] = c;
       buff[i + 1] = 0;
-      printf("Caractere = %d\n", c);
-      printf("Ret = %d\n", ret);
-      printf("BUff = %s\n", buff);
-      if (buff[i] == '\n')//buff[i - 1] == '\r' && buff[i] == '\n')
+      if (buff[i] == '\n')
 	{
-	  buff[i] = 0;//buff[i - 1] = 0;
-	  printf("ok");
+	  buff[i] = 0;
 	  return (buff);
 	}
       i++;
     }
-  printf("Sortie");
   free(buff);
   return (NULL);
 }

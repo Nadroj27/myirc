@@ -5,7 +5,7 @@
 ## Login   <noel_h@epitech.net>
 ## 
 ## Started on  Wed Mar 25 10:36:32 2015 Pierre NOEL
-## Last update Sat Apr 11 14:46:28 2015 Pierre NOEL
+## Last update Sun Apr 12 14:57:18 2015 Pierre NOEL
 ##
 
 NAME_S			=		server
@@ -28,7 +28,8 @@ SRC_S			=		src_server/server.c		\
 					src_server/add_client.c		\
 					src_server/char_function.c	\
 					src_server/create_server.c	\
-					src_server/my_fd_set_isset.c
+					src_server/my_fd_set_isset.c	\
+					src_server/part.c
 
 SRC_C			=		src_client/client.c		\
 					src_client/my_str_to_wordtab.c	\

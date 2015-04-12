@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Mar 25 11:14:36 2015 Pierre NOEL
-** Last update Sun Apr 12 13:58:54 2015 Pierre NOEL
+** Last update Sun Apr 12 14:57:02 2015 Pierre NOEL
 */
 
 #ifndef			_SERVER_H_
@@ -91,4 +91,6 @@ void			my_list(t_env*, t_cmd *, t_env *);
 void			my_join(t_env*, t_cmd *, t_env *);
 void			my_msg(t_env*, t_cmd*, t_env *);
 void			my_user(t_env*, t_cmd*, t_env*);
+void			my_part(t_env*, t_cmd*, t_env*);
+
 #endif			/* _SERVER_H_ */

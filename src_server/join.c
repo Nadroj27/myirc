@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Apr  8 15:50:57 2015 Pierre NOEL
-** Last update Fri Apr 10 14:54:32 2015 Pierre NOEL
+** Last update Sun Apr 12 15:01:51 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -78,7 +78,7 @@ void				my_join(t_env *e, t_cmd *cmd, t_env *client)
 			  RETOUR_C,
 			  getUser(e, cmd->opt[0], "127.0.0.1", client->nickname),
 			  getEnd(client->nickname, cmd->opt[0],"127.0.0.1")))
-	    my_error("Failed to create response", 0);
+	    my_error_c("Failed to create response", 0);
 	  //	  printf("%s\n", client->return_code);
 	}
     }
