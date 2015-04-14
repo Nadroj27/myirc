@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Apr  8 14:25:22 2015 Pierre NOEL
-** Last update Sun Apr 12 19:44:05 2015 Pierre NOEL
+** Last update Tue Apr 14 14:51:40 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -28,9 +28,19 @@ static int			check_use(t_env *e, char *nickname)
 void				my_nickname(t_env *e, t_cmd *cmd, t_env *client)
 {
   if (cmd->opt[0] == NULL)
-    client->return_code = strdup("431\r\n");
+    {
+      if ((client->return_code = malloc(512)) == NULL)
+	my_error("Malloc failed", 0);
+      if (0 > sprintf(client->return_code, ":%s 431\r\n", client->nickname))
+	response_fail(&(client->return_code), client->id);
+    }
   else if (check_use(e, cmd->opt[0]))
-    client->return_code = strdup("433\r\n");
+    {
+      if ((client->return_code = malloc(512)) == NULL)
+	my_error("Malloc failed", 0);
+      if (0 > sprintf(client->return_code, ":%s 433\r\n", client->nickname))
+	response_fail(&(client->return_code), client->id);
+    }
   else
     {
       free(client->nickname);

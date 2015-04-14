@@ -5,15 +5,14 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Apr  8 15:50:57 2015 Pierre NOEL
-** Last update Sun Apr 12 21:03:21 2015 Pierre NOEL
+** Last update Tue Apr 14 15:02:34 2015 Pierre NOEL
 */
 
 #include			"server.h"
 
-char				*getUser(t_env *e,
-					 char *channel,
-					 char *h,
-					 char *c)
+static char			*getUsr(t_env *e,
+					char *channel,
+					char *c)
 {
   t_env				*tmp;
   char				*info;
@@ -21,17 +20,17 @@ char				*getUser(t_env *e,
   if ((info = malloc(512)) == NULL)
     my_error("Malloc failed", 0);
   info[0] = 0;
-  if (0 > sprintf(info, ":%s 353 %s = %s",
-		  h, c, channel))
-    my_error_c("Unable to make response", 1);
+  if (0 > sprintf(info, ":%s 353 %s = %s :",
+		  c, c, channel))
+    return (NULL);
   tmp = e;
   while (tmp)
     {
-      if (tmp->fd_type == FD_CLIENT && tmp->channel != NULL)
+      if (tmp->fd_type == FD_CLIENT && tmp->channels != NULL)
 	{
-	  if (strcmp(tmp->channel, channel) == 0)
+	  if (have_channel(tmp, channel))
 	    {
-	      info = xstrcat(info, " :@");
+	      info = xstrcat(info, " @");
 	      info = xstrcat(info, tmp->nickname);
 	    }
 	}
@@ -41,21 +40,17 @@ char				*getUser(t_env *e,
   return (info);
 }
 
-char				*getEnd(char *n, char *c, char *h)
+static char			*getEnd(char *n, char *c)
 {
   char				*info;
 
-  if ((info = malloc(31 + strlen(n) + strlen(c) + strlen(h))) == NULL)
+  if ((info = malloc(31 + strlen(n) + 2 * strlen(c))) == NULL)
     my_error("Failed Malloc", 0);
-  info[0] = 0;
-  info = xstrcat(info, ":");
-  info = xstrcat(info, h);
-  info = xstrcat(info, " 366 ");
-  info = xstrcat(info, n);
-  info = xstrcat(info, " ");
-  info = xstrcat(info, c);
-  info = xstrcat(info, " :End of /NAMES list");
-  info = xstrcat(info, RETOUR_C);
+  if (0 > sprintf(info, ":%s 366 %s %s :End of /NAMES list\r\n", c, n, c))
+    {
+      response_fail(&(info), -1);
+      return (NULL);
+    }
   return (info);
 }
 
@@ -65,21 +60,24 @@ void				my_join(t_env *e,
 {
   if (e)
     {
+      if ((client->return_code = malloc(512)) == NULL)
+	    my_error("Malloc failed", 0);
       if (cmd->opt[0] == NULL)
-	client->return_code = strdup("461\r\n");
+	{
+	  if (0 > sprintf(":%s 461\r\n", client->nickname))
+	    response_fail(&(client->return_code), client->id);
+	}
       else
 	{
-	  if ((client->return_code = malloc(1024)) == NULL)
-	    my_error("Malloc failed", 0);
-	  if (client->channel != NULL)
-	    free(client->channel);
-	  client->channel = strdup(cmd->opt[0]);
-	  if (0 > sprintf(client->return_code, "JOIN %s%s%s%s",
+	  if (!have_channel(client, cmd->opt[0]))
+	    add_channel(client, cmd->opt[0]);
+	  if (0 > sprintf(client->return_code, ":%s JOIN %s%s%s%s",
+			  client->nickname,
 			  cmd->opt[0],
 			  RETOUR_C,
-			  getUser(e, cmd->opt[0], "127.0.0.1", client->nickname),
-			  getEnd(client->nickname, cmd->opt[0],"127.0.0.1")))
-	    my_error_c("Failed to create response", 0);
+			  getUsr(e, cmd->opt[0], client->nickname),
+			  getEnd(client->nickname, cmd->opt[0])))
+	    response_fail(&(client->return_code), client->id);
 	}
     }
 }

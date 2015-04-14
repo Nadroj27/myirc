@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Mar 25 11:14:36 2015 Pierre NOEL
-** Last update Sun Apr 12 19:30:20 2015 Pierre NOEL
+** Last update Tue Apr 14 15:35:52 2015 Pierre NOEL
 */
 
 #ifndef			_SERVER_H_
@@ -31,25 +31,32 @@
 # define		RETOUR_C "\r\n"
 
 typedef void(*fct)();
+typedef struct s_env*(*fct2)();
+
+typedef struct		s_channel
+{
+  char			*name;
+  struct s_channel	*next;
+}			t_channel;
 
 typedef struct		s_env
 {
   int			id;
-  char			fd_type;
-  struct s_env		*(*fct_read)();
-  void			(*fct_write)();
   int			port;
   char			*channel;
   char			*nickname;
   char			*pseudo;
-  char			*real_name;
   char			*host;
   char			*host_name;
+  char			*real_name;
   char			*return_code;
+  t_channel		*channels;
+  fct2			fct_read;
+  fct			fct_write;
   struct s_env		*next;
+  char			fd_type;
 }			t_env;
 
-typedef t_env*(*fct2)();
 
 typedef struct		s_cmd
 {
@@ -68,6 +75,7 @@ typedef struct		s_list_cmd
 
 void			my_error(char *, int);
 void			my_error_c(char *, int);
+void			response_fail(char **, int);
 char			*my_read_irc(int);
 t_cmd			*check_command(char *, int, int);
 int			choose_cmd(t_env *, t_cmd *, t_env *);
@@ -85,6 +93,9 @@ void			add_server(t_env *e);
 int			my_fd_set_list(t_env *, fd_set *, fd_set *);
 void			my_fd_isset_write(t_env *, fd_set *);
 void			my_fd_isset(t_env *, fd_set *, fd_set *);
+char			**concatDoubleChar(char **, char **);
+void			free_my_double_char(char **);
+char			**list_canal(t_env*, char *);
 
 /* Commandes */
 
@@ -94,5 +105,11 @@ void			my_join(t_env*, t_cmd *, t_env *);
 void			my_msg(t_env*, t_cmd*, t_env *);
 void			my_user(t_env*, t_cmd*, t_env*);
 void			my_part(t_env*, t_cmd*, t_env*);
+
+/* channels */
+
+void			add_channel(t_env *client, char *channel);
+int			del_channel(t_env *client, char *channel);
+int			have_channel(t_env *client, char *channel);
 
 #endif			/* _SERVER_H_ */

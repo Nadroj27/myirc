@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Fri Apr 10 16:30:37 2015 Pierre NOEL
-** Last update Sun Apr 12 18:52:26 2015 Pierre NOEL
+** Last update Tue Apr 14 13:56:22 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -32,7 +32,8 @@ void				add_client(t_env *e, int s)
       a->host = inet_ntoa(client_sin.sin_addr);
       a->host_name = NULL;
       a->return_code = NULL;
-      a->real_name = NULL;
+      //      a->real_name = NULL;
       a->next = NULL;
+      a->channels = NULL;
     }
 }

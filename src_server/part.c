@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Apr  8 16:40:41 2015 Pierre NOEL
-** Last update Sun Apr 12 19:19:32 2015 Pierre NOEL
+** Last update Tue Apr 14 14:46:13 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -14,18 +14,19 @@ void				my_part(t_env *e, t_cmd *cmd, t_env *client)
 {
   if (client->channel != NULL && e)
     {
-      if (strcmp(client->channel, cmd->opt[0]) == 0)
+      if (have_channel(client, cmd->opt[0]))
 	{
-	  free(client->channel);
-	  client->channel = NULL;
+	  del_channel(client, cmd->opt[0]);
 	  if ((client->return_code = malloc(512)) == NULL)
 	    my_error("Malloc failed", 0);
-	  if (0 > sprintf(client->return_code, "PART %s%s",
+	  if (0 > sprintf(client->return_code, ":%s PART %s%s",
+			  client->nickname,
 			  cmd->opt[0],
 			  RETOUR_C))
-	    my_error_c("Failed to create response", 0);
+	    response_fail(&(client->return_code), client->id);
 	}
       else
-	client->return_code = strdup("442\r\n");
+	if (0 > sprintf(client->return_code, ":%s 442\r\n", client->nickname))
+	  response_fail(&(client->return_code), client->id);
     }
 }

@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Fri Apr 10 16:31:41 2015 Pierre NOEL
-** Last update Sun Apr 12 19:46:05 2015 Pierre NOEL
+** Last update Tue Apr 14 15:28:29 2015 Pierre NOEL
 */
 
 #include			<math.h>
@@ -65,4 +65,36 @@ char				*append_two(char *str, char *str2)
   result = strcat(result, str);
   result = strcat(result, str2);
   return (result);
+}
+
+char				**concatDoubleChar(char **src, char **dest)
+{
+  int				i;
+  int				j;
+
+  i = 0;
+  j = 0;
+  while (dest[i] != NULL)
+    i++;
+  while (src[j] != NULL)
+    {
+      dest[i] = strdup(src[j]);
+      i++;
+      j++;
+    }
+  dest[i] = NULL;
+  return (dest);
+}
+
+void				free_my_double_char(char **str)
+{
+  int				i;
+
+  i = 0;
+  while (str[i] != NULL)
+    {
+      free(str[i]);
+      i++;
+    }
+  free(str);
 }

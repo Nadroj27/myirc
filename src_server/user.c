@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Apr  8 17:26:40 2015 Pierre NOEL
-** Last update Sun Apr 12 19:45:12 2015 Pierre NOEL
+** Last update Tue Apr 14 14:36:25 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -14,6 +14,9 @@ void				my_user(t_env *e, t_cmd *cmd, t_env *client)
 {
   if (e && cmd && client)
     {
+      client->return_code = malloc(512);
+      if (client->return_code == NULL)
+	my_error("Malloc failed", 0);
       if (cmd->opt[0] != NULL && cmd->opt[1] != NULL && cmd->opt[2]
 	  && cmd->opt[3] != NULL)
 	{
@@ -21,12 +24,11 @@ void				my_user(t_env *e, t_cmd *cmd, t_env *client)
 	  client->host = strdup(cmd->opt[1]);
 	  client->host_name = strdup(cmd->opt[2]);
 	  client->real_name = strdup(cmd->opt[3]);
-	  client->return_code = malloc(512);
-	  if (client->return_code == NULL)
-	    my_error("Malloc failed", 0);
-	  client->return_code = strdup("300\r\n");
+	  if (0 > sprintf(client->return_code, ":%s 300\r\n", client->nickname))
+	    response_fail(&(client->return_code), client->id);
 	}
       else
-	client->return_code = strdup("461\r\n");
+	if (0 > sprintf(client->return_code, ":%s 461\r\n", client->nickname))
+	  response_fail(&(client->return_code), client->id);
     }
 }

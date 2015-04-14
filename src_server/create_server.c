@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Fri Apr 10 16:59:05 2015 Pierre NOEL
-** Last update Sun Apr 12 19:30:33 2015 Pierre NOEL
+** Last update Tue Apr 14 14:00:50 2015 Pierre NOEL
 */
 
 #include				"server.h"
@@ -19,15 +19,16 @@ t_env					*server_read(t_env *e, int fd)
 
 static void				initialise_serv(t_env *e)
 {
+  e->next = NULL;
   e->fct_read = server_read;
   e->fct_write = NULL;
   e->channel = NULL;
+  e->channels = NULL;
   e->nickname = NULL;
   e->real_name = NULL;
   e->host_name = NULL;
   e->pseudo = NULL;
   e->return_code = NULL;
-  e->next = NULL;
 }
 
 void					add_server(t_env *e)
