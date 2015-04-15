@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Sun Mar 29 22:34:24 2015 Pierre NOEL
-** Last update Wed Apr 15 11:24:45 2015 Pierre NOEL
+** Last update Wed Apr 15 15:21:39 2015 Jérémy MATHON
 */
 
 #include		"client.h"
@@ -17,8 +17,6 @@ void			command_in_the_map(t_map *this, char **arg, int sfd)
   tmp = this;
   while (tmp != NULL)
     {
-      printf("COMMAND : %s\n", tmp->name);
-      printf("ARG : %s\n", arg[0]);
       if (strcmp(tmp->name, arg[0]) == 0)
 	tmp->ptr_fct(arg, sfd);
       tmp = tmp->next;
@@ -28,15 +26,19 @@ void			command_in_the_map(t_map *this, char **arg, int sfd)
 void			check_command(char *buff, int sfd, int length, t_map *map)
 {
   char			**arg;
+  char			*tmp;
 
-  printf("BUFFER => %s\n", buff);
   if (buff[0] != '/')
-    write(sfd, buff, length);
+    {
+      tmp = malloc(sizeof(char) * 512);
+      strcat(tmp, buff);
+      strcat(tmp, "\r\n");
+      write(sfd, tmp, strlen(tmp));
+    }
   else
     {
       buff++;
       arg = my_str_to_wordtab(buff, ' ');
-      printf("ARG : %s , %s , %s\n", arg[0], arg[1], arg[2]);
       command_in_the_map(map, arg, sfd);
     }
 }
