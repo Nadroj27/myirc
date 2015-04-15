@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Apr  8 15:50:57 2015 Pierre NOEL
-** Last update Tue Apr 14 15:02:34 2015 Pierre NOEL
+** Last update Wed Apr 15 13:38:47 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -44,9 +44,9 @@ static char			*getEnd(char *n, char *c)
 {
   char				*info;
 
-  if ((info = malloc(31 + strlen(n) + 2 * strlen(c))) == NULL)
+  if ((info = malloc(35 + 2 * strlen(n) + strlen(c))) == NULL)
     my_error("Failed Malloc", 0);
-  if (0 > sprintf(info, ":%s 366 %s %s :End of /NAMES list\r\n", c, n, c))
+  if (0 > sprintf(info, ":%s 366 %s %s :End of /NAMES list\r\n", n, n, c))
     {
       response_fail(&(info), -1);
       return (NULL);

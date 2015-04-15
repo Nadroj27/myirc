@@ -5,14 +5,14 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Apr  8 16:40:41 2015 Pierre NOEL
-** Last update Tue Apr 14 14:46:13 2015 Pierre NOEL
+** Last update Wed Apr 15 13:40:14 2015 Pierre NOEL
 */
 
 #include			"server.h"
 
 void				my_part(t_env *e, t_cmd *cmd, t_env *client)
 {
-  if (client->channel != NULL && e)
+  if (client->channels != NULL && e)
     {
       if (have_channel(client, cmd->opt[0]))
 	{
