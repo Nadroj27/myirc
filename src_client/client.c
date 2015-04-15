@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Sun Mar 29 22:34:24 2015 Pierre NOEL
-** Last update Tue Apr 14 17:07:40 2015 Pierre NOEL
+** Last update Wed Apr 15 11:24:45 2015 Pierre NOEL
 */
 
 #include		"client.h"
@@ -31,16 +31,14 @@ void			check_command(char *buff, int sfd, int length, t_map *map)
 
   printf("BUFFER => %s\n", buff);
   if (buff[0] != '/')
+    write(sfd, buff, length);
+  else
     {
-      write(sfd, buff, length);
-      close(sfd);
-      return ;
+      buff++;
+      arg = my_str_to_wordtab(buff, ' ');
+      printf("ARG : %s , %s , %s\n", arg[0], arg[1], arg[2]);
+      command_in_the_map(map, arg, sfd);
     }
-  if (buff[0] == '/')
-    buff++;
-  arg = my_str_to_wordtab(buff, ' ');
-  printf("ARG : %s , %s , %s\n", arg[0], arg[1], arg[2]);
-  command_in_the_map(map, arg, sfd);
 }
 
 void			check_input(int sfd, t_map *map)
@@ -48,9 +46,12 @@ void			check_input(int sfd, t_map *map)
   char			buff[4096];
   int			length;
 
-  length = read(0, buff, 4095);
-  buff[length - 1] = 0;
-  check_command(buff, sfd, length, map);
+  if ((length = read(0, buff, 4095)) > 0)
+    {
+      buff[length - 1] = 0;
+      check_command(buff, sfd, length, map);
+    }
+  //  fprintf(stderr, "Read failed\n");
 }
 
 void			mloop(int sfd)
@@ -64,8 +65,12 @@ void			mloop(int sfd)
   while (1)
     {
       printf("début read\n");
-      ret = read(sfd, buffer, 4096);
-      buffer[ret] = 0;
+      if ((ret = read(sfd, buffer, 4096)) == -1)
+	{
+	  fprintf(stderr, "Read failed\n");
+	  break;
+	}
+      buffer[ret - 1] = 0;
       printf("Connexion established : %s\n", buffer);
       check_input(sfd, map);
       printf("-----------\n");
