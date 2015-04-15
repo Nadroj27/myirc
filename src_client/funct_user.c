@@ -5,7 +5,7 @@
 ** Login   <mathon_j@mathonj>
 **
 ** Started on  Wed Apr  1 13:01:44 2015 Jérémy MATHON
-** Last update Thu Apr  9 17:04:25 2015 Jérémy MATHON
+** Last update Tue Apr 14 16:52:05 2015 Pierre NOEL
 */
 
 #include	"client.h"
@@ -31,10 +31,11 @@ int		change_nickname(char **argv, int sfd)
   tmp = malloc(sizeof(char) * 512);
   strcpy(tmp, "NICK ");
   strcat(tmp, argv[1]);
-  printf("JE CHANGE DE NICKNAME LOL\n");
-  tmp = modif_input(tmp);
+  strcat(tmp, "\r\n");
+  //  printf("JE CHANGE DE NICKNAME LOL\n");
+  //tmp = modif_input(tmp);
   write(sfd, tmp, strlen(tmp));
-  close(sfd);
+  //  close(sfd);
   return (0);
 }
 

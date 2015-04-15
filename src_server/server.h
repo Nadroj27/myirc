@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Mar 25 11:14:36 2015 Pierre NOEL
-** Last update Tue Apr 14 15:35:52 2015 Pierre NOEL
+** Last update Wed Apr 15 11:12:35 2015 Pierre NOEL
 */
 
 #ifndef			_SERVER_H_
@@ -57,7 +57,6 @@ typedef struct		s_env
   char			fd_type;
 }			t_env;
 
-
 typedef struct		s_cmd
 {
   char			*full_cmd;
@@ -81,35 +80,29 @@ t_cmd			*check_command(char *, int, int);
 int			choose_cmd(t_env *, t_cmd *, t_env *);
 t_env			*add_event(t_env *, fct2, fct, int);
 t_env			*find_by_id(t_env *, int);
-void			dump(t_env *a);
-char			*xstrcat(char *dest, char *src);
+void			dump(t_env *);
+char			*xstrcat(char *, char *);
 void			client_write(t_env *, int);
 t_env			*client_read(t_env*, int);
 char			*append_two(char *, char *);
 void			add_client(t_env *, int);
 char			*uint_to_char(unsigned int );
-t_env			*server_read(t_env *e, int fd);
-void			add_server(t_env *e);
+t_env			*server_read(t_env *, int);
+void			add_server(t_env *);
 int			my_fd_set_list(t_env *, fd_set *, fd_set *);
 void			my_fd_isset_write(t_env *, fd_set *);
 void			my_fd_isset(t_env *, fd_set *, fd_set *);
 char			**concatDoubleChar(char **, char **);
 void			free_my_double_char(char **);
-char			**list_canal(t_env*, char *);
-
-/* Commandes */
-
+char			**list_canal(t_env*, char *, char **, char **);
 void			my_nickname(t_env*, t_cmd *, t_env *);
 void			my_list(t_env*, t_cmd *, t_env *);
 void			my_join(t_env*, t_cmd *, t_env *);
 void			my_msg(t_env*, t_cmd*, t_env *);
 void			my_user(t_env*, t_cmd*, t_env*);
 void			my_part(t_env*, t_cmd*, t_env*);
-
-/* channels */
-
-void			add_channel(t_env *client, char *channel);
-int			del_channel(t_env *client, char *channel);
-int			have_channel(t_env *client, char *channel);
+void			add_channel(t_env *, char *);
+int			del_channel(t_env *, char *);
+int			have_channel(t_env *, char *);
 
 #endif			/* _SERVER_H_ */

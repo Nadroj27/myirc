@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Apr  8 14:51:24 2015 Pierre NOEL
-** Last update Tue Apr 14 16:14:04 2015 Pierre NOEL
+** Last update Wed Apr 15 11:08:00 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -21,18 +21,16 @@ char				**getKey(t_cmd *cmd, int i, int j, int k)
     {
       if (cmd->opt[0][i] == ',' && result[0] != NULL)
 	{
-	  result[j][k] = 0;
+	  result[j++][k] = 0;
 	  k = 0;
-	  result[j + 1] = NULL;
-	  j++;
+	  result[j] = NULL;
 	}
       else
 	{
 	  if (result[j] == NULL)
 	    if ((result[j] = malloc(512)) == NULL)
 	      my_error("Malloc failed", 0);
-	  result[j][k] = cmd->opt[0][i];
-	  k++;
+	  result[j][k++] = cmd->opt[0][i];
 	}
       i++;
     }
@@ -48,30 +46,28 @@ char				**getResult(t_env *e, t_cmd *cmd)
   char				**result;
   char				**tmp;
 
-  i = 0;
-  if ((result = malloc(512 * sizeof(char *))) == NULL)
-    my_error("Malloc failed", 0);
-  result[0] = NULL;
-  key = getKey(cmd, 0, 0, 0);
-  while (key[i] != NULL)
+  if (cmd->opt[0])
     {
-      tmp = list_canal(e, key[i]);
-      int j = 0;
-      while (tmp[j] != NULL)
+      if ((result = malloc(512 * sizeof(char *))) == NULL)
+	my_error("Malloc failed", 0);
+      result[0] = NULL;
+      key = getKey(cmd, 0, 0, 0);
+      i = 0;
+      while (key[i] != NULL)
 	{
-	  printf("tmp[j] = %s\n", tmp[j]);
-	  j++;
+	  tmp = list_canal(e, key[i], NULL, NULL);
+	  result = concatDoubleChar(tmp, result);
+	  free_my_double_char(tmp);
+	  i++;
 	}
-      result = concatDoubleChar(tmp, result);
-      free_my_double_char(tmp);
-      i++;
+      free_my_double_char(key);
+      return (result);
     }
-  free_my_double_char(key);
+  result = list_canal(e, NULL, NULL, NULL);
   return (result);
 }
 
 char				*getRPL_list(char **result,
-					     char *host,
 					     char *nickname)
 {
   int				i;
@@ -84,7 +80,7 @@ char				*getRPL_list(char **result,
   while (result[i] != NULL)
     {
       info = xstrcat(info, ":");
-      info = xstrcat(info, host);
+      info = xstrcat(info, nickname);
       info = xstrcat(info, " 322 ");
       info = xstrcat(info, nickname);
       info = xstrcat(info, " ");
@@ -100,21 +96,16 @@ void				my_list(t_env *e, t_cmd *cmd, t_env *client)
   char				*info;
   char				**result;
 
-  if (cmd->opt[0] != NULL)
-    {
-      if ((info = malloc(512)) == NULL)
-	my_error("Malloc failed", 0);
-      info[0] = 0;
-      result = getResult(e, cmd);
-      if (0 > sprintf(info, ":%s %s%s:%s 323 %s :End of /LIST\r\n",
-		      client->nickname,
-		      "321 Channel:Users Name\r\n",
-		      getRPL_list(result, client->host, client->nickname),
-		      client->nickname,
-		      client->nickname))
-	my_error_c("Unable to return response", 0);
-      client->return_code = strdup(info);
-      free_my_double_char(result);
-      free(info);
-    }
+  if ((info = malloc(512)) == NULL)
+    my_error("Malloc failed", 0);
+  info[0] = 0;
+  result = getResult(e, cmd);
+  if (0 > sprintf(info, "%s:%s 323 %s :End of /LIST\r\n",
+		  getRPL_list(result, client->nickname),
+		  client->nickname,
+		  client->nickname))
+    my_error_c("Unable to return response", 0);
+  client->return_code = strdup(info);
+  free_my_double_char(result);
+  free(info);
 }

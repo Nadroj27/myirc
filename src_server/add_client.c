@@ -5,10 +5,25 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Fri Apr 10 16:30:37 2015 Pierre NOEL
-** Last update Tue Apr 14 13:56:22 2015 Pierre NOEL
+** Last update Wed Apr 15 11:11:24 2015 Pierre NOEL
 */
 
 #include			"server.h"
+
+static void			getResponse(t_env *a)
+{
+  a->return_code = malloc(512);
+  if (a->return_code == NULL)
+    my_error("Malloc failed", 0);
+  if (0 > sprintf(a->return_code, ":%s 001 %s %s %s!%s@%s\r\n",
+	  a->nickname,
+	  a->nickname,
+	  "Welcome to the Internet Relay Network ",
+	  a->nickname,
+	  a->pseudo,
+		  a->host))
+    response_fail(&(a->return_code), a->id);
+}
 
 void				add_client(t_env *e, int s)
 {
@@ -31,9 +46,8 @@ void				add_client(t_env *e, int s)
       a->pseudo = append_two("Anonymous-", uint_to_char((unsigned int)cs));
       a->host = inet_ntoa(client_sin.sin_addr);
       a->host_name = NULL;
-      a->return_code = NULL;
-      //      a->real_name = NULL;
       a->next = NULL;
       a->channels = NULL;
+      getResponse(a);
     }
 }

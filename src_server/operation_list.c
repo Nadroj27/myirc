@@ -5,61 +5,39 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Tue Apr 14 15:03:38 2015 Pierre NOEL
-** Last update Tue Apr 14 15:35:41 2015 Pierre NOEL
+** Last update Wed Apr 15 11:07:09 2015 Pierre NOEL
 */
 
 #include			"server.h"
 
-static int			is_like(char *str, char *pattern)
+static char			**convert_tochar(t_channel *chan)
 {
-  int				i;
-
-  i = 0;
-  while (str[i] != 0)
-    {
-      if (strlen(str) - i >= strlen(pattern))
-	if (strncmp(str + i, pattern, strlen(pattern)) == 0)
-	  return (1);
-      i++;
-    }
-  return (0);
-}
-
-static char			**is_like_list(t_channel *channels,
-					     char *pattern)
-{
-  t_channel			*tmp;
   char				**result;
+  t_channel			*tmp;
   int				i;
 
   i = 0;
   if ((result = malloc(512 * sizeof(char *))) == NULL)
-    my_error("Failed to Malloc", 0);
-  result[0] = NULL;
-  tmp  = channels;
+    my_error("Malloc failed", 0);
+  tmp = chan;
   while (tmp)
     {
-      if (pattern != NULL)
-	{
-	  if (is_like(tmp->name, pattern) == 1)
-	    result[i++] = strdup(tmp->name);
-	}
-      else
-	result[i++] = strdup(tmp->name);
+      result[i] = strdup(tmp->name);
       tmp = tmp->next;
+      i++;
     }
   result[i] = NULL;
   return (result);
 }
 
-static int			check_is_present(char **channels, char *tolook)
+static int			check_is_present(char **result, char *str)
 {
   int				i;
 
   i = 0;
-  while (channels[i] != NULL)
+  while (result[i] != NULL)
     {
-      if (strcmp(channels[i], tolook) == 0)
+      if (strcmp(result[i], str) == 0)
 	return (1);
       i++;
     }
@@ -90,11 +68,11 @@ static char			**epur_doublon(char **chanels)
   return (result);
 }
 
-char		       		**list_canal(t_env *e, char *canal)
+char		       		**list_canal(t_env *e, char *canal,
+					     char **result,
+					     char **tmp_ch)
 {
   t_env				*tmp;
-  char				**result;
-  char				**tmp_ch;
 
   tmp = e;
   if ((result = malloc(4096 * sizeof(char*))) == NULL)
@@ -102,12 +80,19 @@ char		       		**list_canal(t_env *e, char *canal)
   result[0] = NULL;
   while (tmp)
     {
-      if (tmp->channels != NULL)
+      if (canal == NULL)
 	{
-	  tmp_ch = is_like_list(tmp->channels, canal);
+	  tmp_ch = convert_tochar(tmp->channels);
 	  concatDoubleChar(tmp_ch, result);
 	  free_my_double_char(tmp_ch);
 	}
+      else
+	if (have_channel(tmp, canal))
+	  {
+	    result[0] = strdup(canal);
+	    result[1] = NULL;
+	    return (result);
+	  }
       tmp = tmp->next;
     }
   result = epur_doublon(result);

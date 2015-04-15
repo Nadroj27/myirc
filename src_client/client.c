@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Sun Mar 29 22:34:24 2015 Pierre NOEL
-** Last update Thu Apr  9 15:25:49 2015 Jérémy MATHON
+** Last update Tue Apr 14 17:07:40 2015 Pierre NOEL
 */
 
 #include		"client.h"
@@ -49,9 +49,7 @@ void			check_input(int sfd, t_map *map)
   int			length;
 
   length = read(0, buff, 4095);
-  buff[length] = '\r';
-  buff[length + 1] = '\n';
-  buff[length + 2] = 0;
+  buff[length - 1] = 0;
   check_command(buff, sfd, length, map);
 }
 
@@ -61,10 +59,11 @@ void			mloop(int sfd)
   char			buffer[4096];
   t_map			*map;
 
-  map = malloc(sizeof(t_map));
+  map = NULL;
   map = init_map(map);
   while (1)
     {
+      printf("début read\n");
       ret = read(sfd, buffer, 4096);
       buffer[ret] = 0;
       printf("Connexion established : %s\n", buffer);

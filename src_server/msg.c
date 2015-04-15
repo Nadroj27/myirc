@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Apr  8 16:02:56 2015 Pierre NOEL
-** Last update Tue Apr 14 14:54:37 2015 Pierre NOEL
+** Last update Wed Apr 15 11:08:23 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -17,12 +17,12 @@ static void			do_for_all_channel(char *message,
 {
   t_env				*tmp;
 
-  //strcmp(tmp->channel, channel) == 0)
   tmp = e;
   while (tmp)
     {
       if (tmp->fd_type == FD_CLIENT && tmp->channels != NULL)
-	if (have_channel(tmp, channel) && strcmp(client->nickname, tmp->nickname) != 0)
+	if (have_channel(tmp, channel)
+	    && strcmp(client->nickname, tmp->nickname) != 0)
 	  tmp->return_code = strdup(message);
       tmp = tmp->next;
     }
@@ -37,7 +37,7 @@ static int			isForChannel(char *channel, t_env *e)
   while (tmp)
     {
       if (tmp->fd_type == FD_CLIENT && tmp->channels != NULL)
-	if (have_channel(tmp, channel))//strcmp(tmp->channel, channel) == 0)
+	if (have_channel(tmp, channel))
 	  return (1);
       tmp = tmp->next;
     }
@@ -71,8 +71,6 @@ void				my_msg(t_env *e, t_cmd *cmd, t_env *client)
     response_fail(&(message), client->id);
   else
     {
-      /*      message = strcpy(message, cmd->full_cmd);
-	      message = xstrcat(message, "\r\n");*/
       if (cmd->opt[0] != NULL && isForChannel(cmd->opt[0], e))
 	do_for_all_channel(message, e, cmd->opt[0], client);
       else if (cmd->opt[0] != NULL && (tmp  = isForUser(cmd->opt[0], e)))
