@@ -5,29 +5,29 @@
 ** Login   <mathon_j@mathonj>
 **
 ** Started on  Wed Apr  1 13:01:44 2015 Jérémy MATHON
-** Last update Wed Apr 15 15:16:30 2015 Jérémy MATHON
+** Last update Thu Apr 16 10:47:04 2015 Pierre NOEL
 */
 
 #include	"client.h"
 
 int		connection_server(char **argv, int sfd)
 {
-  (void)argv;
-  (void)sfd;
+  if (argv && sfd)
+    return (0);
   return (0);
 }
 
 int		msg_user(char **argv, int sfd)
 {
+  if (argv && sfd)
+    return (0);
   return (0);
 }
 
 int		change_nickname(char **argv, int sfd)
 {
-  int		i;
   char		*tmp;
 
-  i = 1;
   tmp = malloc(sizeof(char) * 512);
   strcpy(tmp, "NICK ");
   strcat(tmp, argv[1]);
@@ -38,5 +38,7 @@ int		change_nickname(char **argv, int sfd)
 
 int		list_user(char **argv, int sfd)
 {
+  if (argv && sfd)
+    return (0);
   return (0);
 }

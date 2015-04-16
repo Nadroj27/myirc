@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Mar 25 11:14:36 2015 Pierre NOEL
-** Last update Thu Apr  9 17:15:12 2015 Jérémy MATHON
+** Last update Thu Apr 16 11:51:53 2015 Pierre NOEL
 */
 
 #ifndef			_CLIENT_H_
@@ -22,7 +22,6 @@
 # include		<stdlib.h>
 # include		<errno.h>
 # include		<string.h>
-# define		color(x, txt) printf("\033[%sm%s\033[0m", x, txt)
 
 typedef	void(*fct)();
 
@@ -31,35 +30,40 @@ typedef	struct		s_map
   char			*name;
   int			(*ptr_fct)();
   struct	s_map	*next;
+  int			hasWrite;
 }			t_map;
 
-/* METHODS MAP OBJECT */
-t_map			*init_map(t_map *);
-t_map			*add_element(t_map *, const char *, int (*)(char **, int));
+typedef struct		s_client
+{
+  char			*nickname;
+  char			*channel;
+}			t_client;
 
-void			my_error(char *s, int opt);
-void			check_input(int sfd, t_map *map);
-void			check_command(char *str, int sfd, int length, t_map *map);
-void			init_tab(char *tab);
-void			command_in_the_map(t_map *, char **, int);
+t_map			*init_map(t_map *);
+t_map			*add_element(t_map *, const char *,
+				     int (*)(char **, int));
+t_map			*add_element2(t_map *, const char *,
+				      int (*)(char **, t_client *));
+void			my_error(char *, int );
+void			check_input(int , t_map *, char *, t_client *);
+void			check_command(char *, int , t_map *);
+void			init_tab(char *);
+int			command_in_the_map(t_map *, char **, int);
 char			**my_str_to_wordtab(char *str, char c);
 int			my_strnlen(char *str, char c);
 int			count_words(char *str, char c);
-void			mloop(int sfd);
 char			*modif_input(char *str);
-
-/* FUNCTIONS IN MAP OBJECT */
-/* funct_user */
 int			connection_server(char **argv, int sfd);
 int			msg_user(char **argv, int sfd);
 int			change_nickname(char **argv, int sfd);
 int			list_user(char **argv, int sfd);
-/* funct_channel */
 int			list_channel(char **argv, int sfd);
 int			join_channel(char **argv, int sfd);
 int			part_channel(char **argv, int sfd);
-/* funct_file */
 int			send_file(char **argv, int sfd);
 int			accept_file(char **argv, int sfd);
+t_map			*init_return_code();
+int			nickname_changed(char **, t_client *);
+int			server_connected(char **, t_client *);
 
 #endif			/* _CLIENT_H_ */

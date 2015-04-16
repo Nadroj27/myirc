@@ -5,7 +5,7 @@
 ## Login   <noel_h@epitech.net>
 ## 
 ## Started on  Wed Mar 25 10:36:32 2015 Pierre NOEL
-## Last update Wed Apr 15 16:27:47 2015 Pierre NOEL
+## Last update Thu Apr 16 11:57:16 2015 Pierre NOEL
 ##
 
 NAME_S			=		server
@@ -42,14 +42,15 @@ SRC_C			=		src_client/client.c		\
 					src_client/funct_channel.c	\
 					src_client/funct_file.c		\
 					src_client/funct_command.c	\
-					src_client/error.c
-
+					src_client/error.c		\
+					src_client/command.c		\
+					src_client/return_codes.c
 
 OBJ_S			=		$(SRC_S:.c=.o)
 
 OBJ_C			=		$(SRC_C:.c=.o)
 
-CFLAGS			=		-W -Wall -Wextra -g
+CFLAGS			=		-W -Wall -Wextra
 
 all:			server client
 

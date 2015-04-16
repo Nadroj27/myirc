@@ -5,77 +5,43 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Sun Mar 29 22:34:24 2015 Pierre NOEL
-** Last update Wed Apr 15 15:21:39 2015 Jérémy MATHON
+** Last update Thu Apr 16 11:49:33 2015 Pierre NOEL
 */
 
 #include		"client.h"
 
-void			command_in_the_map(t_map *this, char **arg, int sfd)
+static t_client		*init_client(t_client *client)
 {
-  t_map			*tmp;
-
-  tmp = this;
-  while (tmp != NULL)
-    {
-      if (strcmp(tmp->name, arg[0]) == 0)
-	tmp->ptr_fct(arg, sfd);
-      tmp = tmp->next;
-    }
+  client = malloc(sizeof(t_client));
+  client->nickname = NULL;
+  client->channel = NULL;
+  return (client);
 }
 
-void			check_command(char *buff, int sfd, int length, t_map *map)
-{
-  char			**arg;
-  char			*tmp;
-
-  if (buff[0] != '/')
-    {
-      tmp = malloc(sizeof(char) * 512);
-      strcat(tmp, buff);
-      strcat(tmp, "\r\n");
-      write(sfd, tmp, strlen(tmp));
-    }
-  else
-    {
-      buff++;
-      arg = my_str_to_wordtab(buff, ' ');
-      command_in_the_map(map, arg, sfd);
-    }
-}
-
-void			check_input(int sfd, t_map *map)
-{
-  char			buff[4096];
-  int			length;
-
-  if ((length = read(0, buff, 4095)) > 0)
-    {
-      buff[length - 1] = 0;
-      check_command(buff, sfd, length, map);
-    }
-  //  fprintf(stderr, "Read failed\n");
-}
-
-void			mloop(int sfd)
+static void		mloop(int sfd)
 {
   int			ret;
   char			buffer[4096];
   t_map			*map;
+  t_client		*client;
 
   map = NULL;
+  client = NULL;
+  client = init_client(client);
   map = init_map(map);
   while (1)
     {
-      printf("début read\n");
-      if ((ret = read(sfd, buffer, 4096)) == -1)
+      if (map->hasWrite)
 	{
-	  fprintf(stderr, "Read failed\n");
-	  break;
+	  if ((ret = read(sfd, buffer, 4096)) == -1)
+	    {
+	      fprintf(stderr, "Read failed\n");
+	      break;
+	    }
+	  map->hasWrite = 0;
 	}
-      buffer[ret - 1] = 0;
-      printf("Connexion established : %s\n", buffer);
-      check_input(sfd, map);
-      printf("-----------\n");
+      buffer[ret - 2] = 0;
+      check_input(sfd, map, buffer, client);
     }
 }
 
@@ -86,7 +52,7 @@ int			main(int ac, char **av)
   struct sockaddr_in	my_addr;
 
   if (ac != 3)
-    my_error("Usage : ./client [adress] [port]\n", 0);
+      my_error("Usage : ./client [adress] [port]\n", 0);
   if (!(pe = getprotobyname("TCP")))
     my_error("Fail getprotobyname", 1);
   sfd = socket(AF_INET, SOCK_STREAM, pe->p_proto);

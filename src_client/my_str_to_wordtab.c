@@ -5,15 +5,15 @@
 ** Login   <mathon_j@epitech.net>
 **
 ** Started on  Tue Mar 31 13:19:46 2015 Jérémy MATHON
-** Last update Tue Mar 31 13:19:52 2015 Jérémy MATHON
+** Last update Thu Apr 16 11:55:43 2015 Pierre NOEL
 */
 
 #include	<stdlib.h>
 
-int    count_words(char *str, char c)
+static int	count_words(char *str, char c)
 {
-  int    i;
-  int    j;
+  int		i;
+  int		j;
 
   i = 0;
   j = 0;
@@ -26,9 +26,9 @@ int    count_words(char *str, char c)
   return (i + 1);
 }
 
-int    my_strnlen(char *str, char c)
+static int	my_strnlen(char *str, char c)
 {
-  int    i;
+  int		i;
 
   i = 0;
   while (str[i] && str[i] != c)
@@ -36,12 +36,12 @@ int    my_strnlen(char *str, char c)
   return (i);
 }
 
-char	**my_str_to_wordtab(char *str, char c)
+char		**my_str_to_wordtab(char *str, char c)
 {
-  int	k;
-  int	j;
-  int	i;
-  char	**tab;
+  int		k;
+  int		j;
+  int		i;
+  char		**tab;
 
   i = 0;
   j = 0;
@@ -49,7 +49,7 @@ char	**my_str_to_wordtab(char *str, char c)
   while (str[i])
     {
       k = 0;
-      tab[j] =malloc(sizeof(char) * (my_strnlen(str, c) + 1));
+      tab[j] = malloc(sizeof(char) * (my_strnlen(str, c) + 50));
       while (str[i] != c && str[i] != '\0')
 	tab[j][k++] = str[i++];
       tab[j++][k] = '\0';
