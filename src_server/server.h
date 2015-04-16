@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Mar 25 11:14:36 2015 Pierre NOEL
-** Last update Wed Apr 15 11:12:35 2015 Pierre NOEL
+** Last update Wed Apr 15 16:27:20 2015 Pierre NOEL
 */
 
 #ifndef			_SERVER_H_
@@ -101,6 +101,7 @@ void			my_join(t_env*, t_cmd *, t_env *);
 void			my_msg(t_env*, t_cmd*, t_env *);
 void			my_user(t_env*, t_cmd*, t_env*);
 void			my_part(t_env*, t_cmd*, t_env*);
+void			my_name(t_env*, t_cmd*, t_env*);
 void			add_channel(t_env *, char *);
 int			del_channel(t_env *, char *);
 int			have_channel(t_env *, char *);

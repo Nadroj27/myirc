@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Apr  8 14:51:24 2015 Pierre NOEL
-** Last update Wed Apr 15 11:08:00 2015 Pierre NOEL
+** Last update Wed Apr 15 16:41:06 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -100,7 +100,9 @@ void				my_list(t_env *e, t_cmd *cmd, t_env *client)
     my_error("Malloc failed", 0);
   info[0] = 0;
   result = getResult(e, cmd);
-  if (0 > sprintf(info, "%s:%s 323 %s :End of /LIST\r\n",
+  if (0 > sprintf(info, ":%s %s%s:%s 323 %s :End of /LIST\r\n",
+		  client->nickname,
+		  "321 Channel:Users Name\r\n",
 		  getRPL_list(result, client->nickname),
 		  client->nickname,
 		  client->nickname))

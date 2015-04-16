@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Mon Apr  6 15:57:25 2015 Pierre NOEL
-** Last update Wed Apr 15 11:05:16 2015 Pierre NOEL
+** Last update Wed Apr 15 16:24:52 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -43,7 +43,7 @@ void			fill_list_function(t_list_cmd **a)
   add_list_function(a, "LIST", my_list);
   add_list_function(a, "JOIN", my_join);
   add_list_function(a, "PART", my_part);
-  add_list_function(a, "NAMES", NULL);
+  add_list_function(a, "NAMES", my_name);
   add_list_function(a, "PRIVMSG", my_msg);
   add_list_function(a, "USER", my_user);
 }
