@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Fri Apr 10 16:30:37 2015 Pierre NOEL
-** Last update Wed Apr 15 11:11:24 2015 Pierre NOEL
+** Last update Thu Apr 16 13:03:28 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -15,13 +15,15 @@ static void			getResponse(t_env *a)
   a->return_code = malloc(512);
   if (a->return_code == NULL)
     my_error("Malloc failed", 0);
-  if (0 > sprintf(a->return_code, ":%s 001 %s %s %s!%s@%s\r\n",
-	  a->nickname,
-	  a->nickname,
-	  "Welcome to the Internet Relay Network ",
-	  a->nickname,
-	  a->pseudo,
-		  a->host))
+  if (0 > sprintf(a->return_code, ":%s 001 %s:%s 002 %s:%s 003 %s:%s 004 %s",
+		  a->nickname,
+		  ":Welcome to this IRC\r\n",
+		  a->nickname,
+		  ":Your host is serv_irc, running version 1.1\r\n",
+		  a->nickname,
+		  ":This server was created april, 16th 2015\r\n",
+		  a->nickname,
+		  ":localhost 1.1 u|o 0|1\r\n"))
     response_fail(&(a->return_code), a->id);
 }
 
