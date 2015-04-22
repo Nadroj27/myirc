@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Mar 25 11:14:36 2015 Pierre NOEL
-** Last update Wed Apr 15 16:27:20 2015 Pierre NOEL
+** Last update Wed Apr 22 16:26:01 2015 Pierre NOEL
 */
 
 #ifndef			_SERVER_H_
@@ -48,8 +48,8 @@ typedef struct		s_env
   char			*pseudo;
   char			*host;
   char			*host_name;
-  char			*real_name;
   char			*return_code;
+  char			*buffer;
   t_channel		*channels;
   fct2			fct_read;
   fct			fct_write;
@@ -75,7 +75,7 @@ typedef struct		s_list_cmd
 void			my_error(char *, int);
 void			my_error_c(char *, int);
 void			response_fail(char **, int);
-char			*my_read_irc(int);
+char			*my_read_irc(int, t_env*);
 t_cmd			*check_command(char *, int, int);
 int			choose_cmd(t_env *, t_cmd *, t_env *);
 t_env			*add_event(t_env *, fct2, fct, int);

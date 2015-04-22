@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Mon Apr  6 14:19:40 2015 Pierre NOEL
-** Last update Wed Apr 15 11:06:34 2015 Pierre NOEL
+** Last update Wed Apr 22 16:47:36 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -33,27 +33,43 @@ static char	       		*my_realloc_irc(char *str, int size)
   return (str);
 }
 
-char				*my_read_irc(int fd)
+static char			*return_final(char **buffer_client,
+					      int i)
 {
-  char				*buff;
+  char				*buffer;
+
+  (*buffer_client)[i] = 0;
+  buffer = strdup(*buffer_client);
+  free(*buffer_client);
+  *buffer_client = NULL;
+  return (buffer);
+}
+
+char				*my_read_irc(int fd, t_env *client)
+{
   char				c;
   int				i;
+  char				*table;
   int				ret;
 
-  buff = NULL;
+  table = malloc(1);
+  table[0] = 0;
   i = 0;
-  while ((ret = read(fd, &c, 1)) > 0)
+  c = 0;
+  while ((ret = read(fd, &c, 1)) >= 0)
     {
-      buff = my_realloc_irc(buff, 1);
-      buff[i] = c;
-      buff[i + 1] = 0;
-      if (buff[i] == '\n')
+      if (ret == 0)
+	return (table);
+      client->buffer = my_realloc_irc(client->buffer, 1);
+      client->buffer[i] = c;
+      client->buffer[i + 1] = 0;
+      if (client->buffer[i] == '\n')
+	return (return_final(&client->buffer, i));
+      if (c != 0)
 	{
-	  buff[i] = 0;
-	  return (buff);
+	  i++;
+	  c = 0;
 	}
-      i++;
     }
-  free(buff);
   return (NULL);
 }

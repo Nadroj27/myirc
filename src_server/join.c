@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Apr  8 15:50:57 2015 Pierre NOEL
-** Last update Wed Apr 15 16:24:38 2015 Pierre NOEL
+** Last update Wed Apr 22 15:52:47 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -20,8 +20,8 @@ static char			*getUsr(t_env *e,
   if ((info = malloc(512)) == NULL)
     my_error("Malloc failed", 0);
   info[0] = 0;
-  if (0 > sprintf(info, ":%s 353 %s = %s :",
-		  c, c, channel))
+  if (0 > sprintf(info, "353 %s = %s :",
+		  c, channel))
     return (NULL);
   tmp = e;
   while (tmp)
@@ -46,7 +46,7 @@ static char			*getEnd(char *n, char *c)
 
   if ((info = malloc(35 + 2 * strlen(n) + strlen(c))) == NULL)
     my_error("Failed Malloc", 0);
-  if (0 > sprintf(info, ":%s 366 %s %s :End of /NAMES list\r\n", n, n, c))
+  if (0 > sprintf(info, "366 %s %s :End of /NAMES list\r\n", n, c))
     {
       response_fail(&(info), -1);
       return (NULL);
@@ -64,15 +64,14 @@ void				my_join(t_env *e,
 	    my_error("Malloc failed", 0);
       if (cmd->opt[0] == NULL)
 	{
-	  if (0 > sprintf(":%s 461\r\n", client->nickname))
+	  if (0 > sprintf(client->return_code, "461\r\n"))
 	    response_fail(&(client->return_code), client->id);
 	}
       else
 	{
 	  if (!have_channel(client, cmd->opt[0]))
 	    add_channel(client, cmd->opt[0]);
-	  if (0 > sprintf(client->return_code, ":%s JOIN %s%s%s%s",
-			  client->nickname,
+	  if (0 > sprintf(client->return_code, "JOIN %s%s%s%s",
 			  cmd->opt[0],
 			  RETOUR_C,
 			  getUsr(e, cmd->opt[0], client->nickname),

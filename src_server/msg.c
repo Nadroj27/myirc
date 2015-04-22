@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Apr  8 16:02:56 2015 Pierre NOEL
-** Last update Wed Apr 15 11:08:23 2015 Pierre NOEL
+** Last update Wed Apr 22 15:55:40 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -67,7 +67,7 @@ void				my_msg(t_env *e, t_cmd *cmd, t_env *client)
   message = malloc(strlen(cmd->full_cmd) + strlen(client->nickname) + 5);
   if (message == NULL)
     my_error("Strdup failed", 0);
-  if (0 > sprintf(message, ":%s %s\r\n", client->nickname, cmd->full_cmd))
+  if (0 > sprintf(message, "%s\r\n", cmd->full_cmd))
     response_fail(&(message), client->id);
   else
     {

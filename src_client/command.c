@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Thu Apr 16 10:47:50 2015 Pierre NOEL
-** Last update Thu Apr 16 11:54:15 2015 Pierre NOEL
+** Last update Wed Apr 22 16:52:16 2015 Pierre NOEL
 */
 
 #include		"client.h"
@@ -76,9 +76,10 @@ void			check_input(int sfd, t_map *map,
 
   if (display_info(buffer, client))
     fprintf(stderr, "Error return code");
-  if ((length = read(0, buff, 4095)) > 0)
+  if ((length = read(0, buff, 4095)) >= 0)
     {
-      buff[length - 1] = 0;
+      if (length > 0)
+	buff[length - 1] = 0;
       check_command(buff, sfd, map);
     }
   buffer[0] = 0;

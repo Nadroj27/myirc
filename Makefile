@@ -5,7 +5,7 @@
 ## Login   <noel_h@epitech.net>
 ## 
 ## Started on  Wed Mar 25 10:36:32 2015 Pierre NOEL
-## Last update Thu Apr 16 11:57:16 2015 Pierre NOEL
+## Last update Wed Apr 22 15:45:47 2015 Pierre NOEL
 ##
 
 NAME_S			=		server
@@ -50,7 +50,7 @@ OBJ_S			=		$(SRC_S:.c=.o)
 
 OBJ_C			=		$(SRC_C:.c=.o)
 
-CFLAGS			=		-W -Wall -Wextra
+CFLAGS			=		-W -Wall -Wextra -g
 
 all:			server client
 

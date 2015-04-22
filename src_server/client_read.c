@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Fri Apr 10 16:26:03 2015 Pierre NOEL
-** Last update Wed Apr 15 16:16:19 2015 Pierre NOEL
+** Last update Wed Apr 22 17:00:07 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -42,8 +42,6 @@ static t_env			*delete_client(t_env *e, t_env *client)
     free(client->nickname);
   if (client->pseudo != NULL)
     free(client->pseudo);
-  if (client->real_name != NULL)
-    free(client->real_name);
   tmp = e;
   while (tmp)
     {
@@ -65,8 +63,8 @@ t_env				*client_read(t_env *e, int fd)
   t_env				*client;
 
   client = find_by_id(e, fd);
-  msg = my_read_irc(fd);
-  if (msg == NULL || strlen(msg) < 1
+  msg = my_read_irc(fd, client);
+  if ((msg != NULL && msg[0] == 0)
       || strncmp(msg, "QUIT", 4) == 0)
     {
       printf("%d: Connection closed\n", fd);
@@ -75,7 +73,7 @@ t_env				*client_read(t_env *e, int fd)
       close(fd);
       return (delete_client(e, client));
     }
-  else
+  else if (msg != NULL)
     {
       printf("Client %d: %s\n", fd, msg);
       cmd = check_command(msg, 0, 1);

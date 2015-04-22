@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Fri Apr 10 16:59:05 2015 Pierre NOEL
-** Last update Tue Apr 14 14:00:50 2015 Pierre NOEL
+** Last update Wed Apr 22 16:27:53 2015 Pierre NOEL
 */
 
 #include				"server.h"
@@ -25,7 +25,6 @@ static void				initialise_serv(t_env *e)
   e->channel = NULL;
   e->channels = NULL;
   e->nickname = NULL;
-  e->real_name = NULL;
   e->host_name = NULL;
   e->pseudo = NULL;
   e->return_code = NULL;
