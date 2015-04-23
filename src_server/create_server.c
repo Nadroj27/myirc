@@ -5,14 +5,14 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Fri Apr 10 16:59:05 2015 Pierre NOEL
-** Last update Wed Apr 22 16:27:53 2015 Pierre NOEL
+** Last update Thu Apr 23 11:45:09 2015 Pierre NOEL
 */
 
 #include				"server.h"
 
 t_env					*server_read(t_env *e, int fd)
 {
-  printf("New Client\n");
+  textcolor(BLUE, "New Client", 1);
   add_client(e, fd);
   return (e->next);
 }

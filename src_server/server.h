@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Mar 25 11:14:36 2015 Pierre NOEL
-** Last update Wed Apr 22 16:26:01 2015 Pierre NOEL
+** Last update Thu Apr 23 11:43:34 2015 Pierre NOEL
 */
 
 #ifndef			_SERVER_H_
@@ -23,12 +23,16 @@
 # include		<errno.h>
 # include		<string.h>
 # include		<math.h>
-# define		color(x, txt) printf("\033[%sm%s\033[0m", x, txt)
+
 # define		FD_FREE 0
 # define		FD_CLIENT 1
 # define		FD_SERVER 2
 # define		MAX_FD 255
 # define		RETOUR_C "\r\n"
+# define		RED	1
+# define		GREEN	2
+# define		YELLOW	3
+# define		BLUE	4
 
 typedef void(*fct)();
 typedef struct s_env*(*fct2)();
@@ -105,5 +109,6 @@ void			my_name(t_env*, t_cmd*, t_env*);
 void			add_channel(t_env *, char *);
 int			del_channel(t_env *, char *);
 int			have_channel(t_env *, char *);
+void			textcolor(int, char *, int);
 
 #endif			/* _SERVER_H_ */

@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Fri Apr 10 16:26:03 2015 Pierre NOEL
-** Last update Wed Apr 22 17:00:07 2015 Pierre NOEL
+** Last update Thu Apr 23 11:45:58 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -61,6 +61,7 @@ t_env				*client_read(t_env *e, int fd)
   char				*msg;
   t_cmd				*cmd;
   t_env				*client;
+  char				buff[4096];
 
   client = find_by_id(e, fd);
   msg = my_read_irc(fd, client);
@@ -75,7 +76,8 @@ t_env				*client_read(t_env *e, int fd)
     }
   else if (msg != NULL)
     {
-      printf("Client %d: %s\n", fd, msg);
+      sprintf(buff, "Client %d: %s", fd, msg);
+      textcolor(BLUE, buff, 1);
       cmd = check_command(msg, 0, 1);
       choose_cmd(e, cmd, client);
       free_cmd(cmd, msg);

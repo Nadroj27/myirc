@@ -5,7 +5,7 @@
 ## Login   <noel_h@epitech.net>
 ## 
 ## Started on  Wed Mar 25 10:36:32 2015 Pierre NOEL
-## Last update Thu Apr 23 11:37:06 2015 Pierre NOEL
+## Last update Thu Apr 23 11:42:11 2015 Pierre NOEL
 ##
 
 NAME_S			=		server
@@ -33,7 +33,8 @@ SRC_S			=		src_server/server.c		\
 					src_server/list.c		\
 					src_server/operation_list.c	\
 					src_server/channel.c		\
-					src_server/name.c
+					src_server/name.c		\
+					src_server/color.c
 
 SRC_C			=		src_client/client.c		\
 					src_client/my_str_to_wordtab.c	\
