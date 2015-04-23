@@ -5,7 +5,7 @@
 ## Login   <noel_h@epitech.net>
 ## 
 ## Started on  Wed Mar 25 10:36:32 2015 Pierre NOEL
-## Last update Wed Apr 22 15:45:47 2015 Pierre NOEL
+## Last update Thu Apr 23 11:37:06 2015 Pierre NOEL
 ##
 
 NAME_S			=		server
@@ -44,7 +44,9 @@ SRC_C			=		src_client/client.c		\
 					src_client/funct_command.c	\
 					src_client/error.c		\
 					src_client/command.c		\
-					src_client/return_codes.c
+					src_client/return_codes.c	\
+					src_client/color.c		\
+					src_client/cutBuff.c
 
 OBJ_S			=		$(SRC_S:.c=.o)
 

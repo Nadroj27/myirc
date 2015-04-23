@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Thu Apr 16 10:47:50 2015 Pierre NOEL
-** Last update Wed Apr 22 16:52:16 2015 Pierre NOEL
+** Last update Thu Apr 23 11:38:48 2015 Pierre NOEL
 */
 
 #include		"client.h"
@@ -24,21 +24,26 @@ int			command_in_the_map(t_map *this, char **arg, int sfd)
 	}
       tmp = tmp->next;
     }
-  printf("Commande non implémentée\n");
+  textcolor(RED, "Command not implemented", 1);
   return (1);
 }
 
-void			check_command(char *buff, int sfd, t_map *map)
+void			check_command(char *buff, int sfd,
+				      t_map *map, t_client *client)
 {
   char			**arg;
-  char			*tmp;
+  char			tmp[1024];
 
   if (buff[0] != '/')
     {
-      tmp = malloc(sizeof(char) * 512);
-      strcat(tmp, buff);
-      strcat(tmp, "\r\n");
-      write(sfd, tmp, strlen(tmp));
+      if (client->channel == NULL)
+	textcolor(RED, "You didn't enter a channel yet", 1);
+      else
+	{
+	  cutbuff(buff, 500 - strlen(client->channel));
+	  sprintf(tmp, "PRIVMSG %s %s\r\n", client->channel, buff);
+	  write(sfd, tmp, strlen(tmp));
+	}
     }
   else
     {
@@ -56,10 +61,11 @@ int			display_info(char *buffer, t_client *client)
   map = init_return_code();
   if (strlen(buffer) > 0)
     {
+      textcolor(YELLOW, buffer, 1);
       arg = my_str_to_wordtab(buffer, ' ');
       while (map)
 	{
-	  if (strcmp(map->name, arg[1]) == 0)
+	  if (strcmp(map->name, arg[0]) == 0)
 	    return (map->ptr_fct(arg, client));
 	  map = map->next;
 	}
@@ -75,12 +81,12 @@ void			check_input(int sfd, t_map *map,
   int			length;
 
   if (display_info(buffer, client))
-    fprintf(stderr, "Error return code");
-  if ((length = read(0, buff, 4095)) >= 0)
+    textcolor(RED, "Error return code unknow", 1);
+  if ((length = read(0, buff, 4095)) > 0)
     {
       if (length > 0)
 	buff[length - 1] = 0;
-      check_command(buff, sfd, map);
+      check_command(buff, sfd, map, client);
     }
   buffer[0] = 0;
 }

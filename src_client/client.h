@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Mar 25 11:14:36 2015 Pierre NOEL
-** Last update Thu Apr 16 11:51:53 2015 Pierre NOEL
+** Last update Thu Apr 23 11:36:49 2015 Pierre NOEL
 */
 
 #ifndef			_CLIENT_H_
@@ -22,6 +22,11 @@
 # include		<stdlib.h>
 # include		<errno.h>
 # include		<string.h>
+
+# define		RED	1
+# define		GREEN	2
+# define		YELLOW	3
+# define		BLUE	4
 
 typedef	void(*fct)();
 
@@ -46,7 +51,7 @@ t_map			*add_element2(t_map *, const char *,
 				      int (*)(char **, t_client *));
 void			my_error(char *, int );
 void			check_input(int , t_map *, char *, t_client *);
-void			check_command(char *, int , t_map *);
+void			check_command(char *, int , t_map *, t_client *);
 void			init_tab(char *);
 int			command_in_the_map(t_map *, char **, int);
 char			**my_str_to_wordtab(char *str, char c);
@@ -65,5 +70,7 @@ int			accept_file(char **argv, int sfd);
 t_map			*init_return_code();
 int			nickname_changed(char **, t_client *);
 int			server_connected(char **, t_client *);
+void			textcolor(int, char *, int);
+void			cutbuff(char *, unsigned int);
 
 #endif			/* _CLIENT_H_ */

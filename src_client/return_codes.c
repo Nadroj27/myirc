@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Thu Apr 16 10:56:09 2015 Pierre NOEL
-** Last update Thu Apr 16 11:57:07 2015 Pierre NOEL
+** Last update Thu Apr 23 11:23:02 2015 Pierre NOEL
 */
 
 #include			"client.h"
@@ -13,14 +13,17 @@
 int				nickname_changed(char **arg,
 						 t_client *client)
 {
-  if (arg[2] != NULL)
+  char				command[1024];
+
+  if (arg[1] != NULL)
     {
-      if (arg[2][0] == ':')
-	arg[2]++;
-      printf("Nickname changed into %s\n", arg[2]);
+      if (arg[1][0] == ':')
+	arg[1]++;
+      sprintf(command, "Nickname changed into %s", arg[1]);
+      textcolor(GREEN, command, 1);
       if (client->nickname != NULL)
 	free(client->nickname);
-      client->nickname = strdup(arg[2]);
+      client->nickname = strdup(arg[1]);
       return (0);
     }
   return (1);
@@ -29,17 +32,9 @@ int				nickname_changed(char **arg,
 int				server_connected(char **arg,
 						 t_client *client)
 {
-  int				i;
-
-  i = 1;
-  printf("Connexion success\n");
-  while (arg[i] != NULL)
-    {
-      printf("%s ", arg[i]);
-      i++;
-    }
-  printf("\n");
-  client->nickname = NULL;
+  textcolor(GREEN, "Connexion success", 1);
+  if (client && arg)
+    client->nickname = NULL;
   client->channel = NULL;
   return (0);
 }

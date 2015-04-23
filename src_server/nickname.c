@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Apr  8 14:25:22 2015 Pierre NOEL
-** Last update Wed Apr 15 09:45:43 2015 Pierre NOEL
+** Last update Thu Apr 23 11:16:54 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -32,18 +32,17 @@ void				my_nickname(t_env *e, t_cmd *cmd, t_env *client)
 
   if (cmd->opt[0] == NULL)
     {
-      if (0 > sprintf(client->return_code, ":%s 431\r\n", client->nickname))
+      if (0 > sprintf(client->return_code, "431\r\n"))
 	response_fail(&(client->return_code), client->id);
     }
   else if (check_use(e, cmd->opt[0]))
     {
-      if (0 > sprintf(client->return_code, ":%s 433\r\n", client->nickname))
+      if (0 > sprintf(client->return_code, "433\r\n"))
 	response_fail(&(client->return_code), client->id);
     }
   else
     {
-      if (0 > sprintf(client->return_code, ":%s NICK :%s\r\n",
-		      client->nickname,
+      if (0 > sprintf(client->return_code, "NICK :%s\r\n",
 		      cmd->opt[0]))
 	response_fail(&(client->return_code), client->id);
       free(client->nickname);
