@@ -5,7 +5,7 @@
 ** Login   <mathon_j@mathonj>
 **
 ** Started on  Tue Mar 31 14:16:27 2015 Jérémy MATHON
-** Last update Thu Apr 16 11:52:46 2015 Pierre NOEL
+** Last update Fri Apr 24 19:23:21 2015 Jérémy MATHON
 */
 
 #include	"client.h"
@@ -24,6 +24,8 @@ t_map		*init_map(t_map *this)
 {
   this = add_element(this, "server", connection_server);
   this = add_element(this, "nick", change_nickname);
+  this = add_element(this, "join", join_channel);
+  this = add_element(this, "msg", msg_user);
   this->hasWrite = 1;
   return (this);
 }

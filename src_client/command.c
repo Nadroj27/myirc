@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Thu Apr 16 10:47:50 2015 Pierre NOEL
-** Last update Thu Apr 23 11:38:48 2015 Pierre NOEL
+** Last update Fri Apr 24 19:21:06 2015 Jérémy MATHON
 */
 
 #include		"client.h"
@@ -17,6 +17,8 @@ int			command_in_the_map(t_map *this, char **arg, int sfd)
   tmp = this;
   while (tmp != NULL)
     {
+      printf("this : %s\n", tmp->name);
+      printf("mon maillon : %s\n", arg[0]);
       if (strcmp(tmp->name, arg[0]) == 0)
 	{
 	  this->hasWrite = 1;

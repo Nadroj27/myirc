@@ -5,7 +5,7 @@
 ** Login   <mathon_j@mathonj>
 **
 ** Started on  Wed Apr  1 13:29:27 2015 Jérémy MATHON
-** Last update Thu Apr 16 10:44:52 2015 Pierre NOEL
+** Last update Fri Apr 24 19:14:17 2015 Jérémy MATHON
 */
 
 #include	"client.h"
@@ -19,8 +19,13 @@ int		list_channel(char **argv, int sfd)
 
 int		join_channel(char **argv, int sfd)
 {
-  if (argv && sfd)
-    return (0);
+  char		*tmp;
+
+  tmp = malloc(sizeof(char) * 512);
+  strcpy(tmp, "JOIN ");
+  strcat(tmp, argv[1]);
+  strcat(tmp, "\r\n");
+  write(sfd, tmp, strlen(tmp));
   return (0);
 }
 

@@ -5,7 +5,7 @@
 ** Login   <mathon_j@mathonj>
 **
 ** Started on  Wed Apr  1 13:01:44 2015 Jérémy MATHON
-** Last update Thu Apr 16 10:47:04 2015 Pierre NOEL
+** Last update Fri Apr 24 19:13:04 2015 Jérémy MATHON
 */
 
 #include	"client.h"
@@ -19,8 +19,15 @@ int		connection_server(char **argv, int sfd)
 
 int		msg_user(char **argv, int sfd)
 {
-  if (argv && sfd)
-    return (0);
+  char		*tmp;
+
+  tmp = malloc(sizeof(char) * 512);
+  strcpy(tmp, "PRIVMSG ");
+  strcat(tmp, argv[1]);
+  strcat(tmp, " ");
+  strcat(tmp, argv[2]);
+  strcat(tmp, "\r\n");
+  write(sfd, tmp, strlen(tmp));
   return (0);
 }
 
