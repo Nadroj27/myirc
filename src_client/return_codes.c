@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Thu Apr 16 10:56:09 2015 Pierre NOEL
-** Last update Thu Apr 23 11:23:02 2015 Pierre NOEL
+** Last update Fri Apr 24 19:48:06 2015 Jérémy MATHON
 */
 
 #include			"client.h"
@@ -39,6 +39,45 @@ int				server_connected(char **arg,
   return (0);
 }
 
+int				channel_changed(char **arg,
+						t_client *client)
+{
+  char				command[1024];
+
+  if (arg[1] != NULL)
+    {
+      if (arg[1][0] == ':')
+	arg[1]++;
+      sprintf(command, "Channel changed. New channel : %s", arg[1]);
+      textcolor(GREEN, command, 1);
+      if (client->channel != NULL)
+	free(client->channel);
+      client->channel = strdup(arg[1]);
+      return (0);
+    }
+  return (1);
+}
+
+
+int				channel_clean(char **arg,
+						t_client *client)
+{
+  char				command[1024];
+
+  if (arg[1] != NULL)
+    {
+      if (arg[1][0] == ':')
+	arg[1]++;
+      sprintf(command, "You quit the channel : %s", arg[1]);
+      textcolor(GREEN, command, 1);
+      if (client->channel != NULL)
+	free(client->channel);
+      client->channel = NULL;
+      return (0);
+    }
+  return (1);
+}
+
 t_map				*init_return_code()
 {
   t_map				*map;
@@ -46,5 +85,7 @@ t_map				*init_return_code()
   map = NULL;
   map = add_element2(map, "NICK", nickname_changed);
   map = add_element2(map, "001", server_connected);
+  map = add_element2(map, "JOIN", channel_changed);
+  map = add_element2(map, "PART", channel_clean);
   return (map);
 }

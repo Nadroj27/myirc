@@ -5,17 +5,14 @@
 ** Login   <mathon_j@mathonj>
 **
 ** Started on  Tue Mar 31 14:16:27 2015 Jérémy MATHON
-** Last update Fri Apr 24 19:23:21 2015 Jérémy MATHON
+** Last update Fri Apr 24 19:37:39 2015 Jérémy MATHON
 */
 
 #include	"client.h"
 
 /*
 ** this = add_element(this, "list", list_channel);
-** this = add_element(this, "join", join_channel);
-** this = add_element(this, "part", part_channel);
 ** this = add_element(this, "user", list_user);
-** this = add_element(this, "msg", msg_user);
 ** this = add_element(this, "send", send_file);
 ** this = add_element(this, "accept", accept_file);
 */
@@ -26,6 +23,7 @@ t_map		*init_map(t_map *this)
   this = add_element(this, "nick", change_nickname);
   this = add_element(this, "join", join_channel);
   this = add_element(this, "msg", msg_user);
+  this = add_element(this, "part", part_channel);
   this->hasWrite = 1;
   return (this);
 }

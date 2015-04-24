@@ -5,7 +5,7 @@
 ** Login   <mathon_j@mathonj>
 **
 ** Started on  Wed Apr  1 13:29:27 2015 Jérémy MATHON
-** Last update Fri Apr 24 19:14:17 2015 Jérémy MATHON
+** Last update Fri Apr 24 19:37:08 2015 Jérémy MATHON
 */
 
 #include	"client.h"
@@ -31,7 +31,12 @@ int		join_channel(char **argv, int sfd)
 
 int		part_channel(char **argv, int sfd)
 {
-  if (argv && sfd)
-    return (0);
+  char		*tmp;
+
+  tmp = malloc(sizeof(char) * 512);
+  strcpy(tmp, "PART ");
+  strcat(tmp, argv[1]);
+  strcat(tmp, "\r\n");
+  write(sfd, tmp, strlen(tmp));
   return (0);
 }

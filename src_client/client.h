@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Mar 25 11:14:36 2015 Pierre NOEL
-** Last update Thu Apr 23 11:36:49 2015 Pierre NOEL
+** Last update Fri Apr 24 19:48:30 2015 Jérémy MATHON
 */
 
 #ifndef			_CLIENT_H_
@@ -70,6 +70,8 @@ int			accept_file(char **argv, int sfd);
 t_map			*init_return_code();
 int			nickname_changed(char **, t_client *);
 int			server_connected(char **, t_client *);
+int			channel_changed(char **, t_client *);
+int			channel_clean(char **, t_client *);
 void			textcolor(int, char *, int);
 void			cutbuff(char *, unsigned int);
 
