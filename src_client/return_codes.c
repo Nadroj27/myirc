@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Thu Apr 16 10:56:09 2015 Pierre NOEL
-** Last update Sat Apr 25 14:36:35 2015 Pierre NOEL
+** Last update Sat Apr 25 16:38:50 2015 Pierre NOEL
 */
 
 #include			"client.h"
@@ -36,7 +36,8 @@ int				nickname_changed(char **arg,
       if (arg[1][0] == ':')
 	arg[1]++;
       sprintf(command, "Nickname changed into %s", arg[1]);
-      textcolor(GREEN, command, 1);
+      client->toClient = xstrcat(client->toClient,
+				 textcolor(GREEN, command, 1));
       if (client->nickname != NULL)
 	free(client->nickname);
       client->nickname = strdup(arg[1]);
@@ -48,7 +49,9 @@ int				nickname_changed(char **arg,
 int				server_connected(char **arg,
 						 t_client *client)
 {
-  textcolor(GREEN, "Connexion success", 1);
+  client->toClient  = xstrcat(client->toClient,
+			      textcolor(GREEN,
+					"Connexion success", 1));
   if (client && arg)
     client->nickname = NULL;
   client->channel = NULL;
@@ -67,13 +70,13 @@ int				channel_changed(char **arg,
     if (client->channel != NULL)
 	free(client->channel);
       client->channel = getChannel(arg[1]);
-      sprintf(command, "Channel changed. New channel : %s", client->channel);
-      textcolor(GREEN, command, 1);
+      sprintf(command, "You join %s", client->channel);
+      client->toClient = xstrcat(client->toClient,
+				 textcolor(GREEN, command, 1));
       return (0);
     }
   return (1);
 }
-
 
 int				channel_clean(char **arg,
 						t_client *client)
@@ -85,7 +88,8 @@ int				channel_clean(char **arg,
       if (arg[1][0] == ':')
 	arg[1]++;
       sprintf(command, "You quit the channel : %s", arg[1]);
-      textcolor(GREEN, command, 1);
+      client->toClient = xstrcat(client->toClient,
+				 textcolor(GREEN, command, 1));
       if (client->channel != NULL)
 	free(client->channel);
       client->channel = NULL;

@@ -5,12 +5,13 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Thu Apr 16 10:47:50 2015 Pierre NOEL
-** Last update Sat Apr 25 14:33:12 2015 Pierre NOEL
+** Last update Sat Apr 25 16:47:14 2015 Pierre NOEL
 */
 
 #include		"client.h"
 
-int			command_in_the_map(t_map *this, char **arg, int sfd)
+int			command_in_the_map(t_map *this, char **arg,
+					   t_client * client)
 {
   t_map			*tmp;
 
@@ -18,50 +19,50 @@ int			command_in_the_map(t_map *this, char **arg, int sfd)
   while (tmp != NULL)
     {
       if (strcmp(tmp->name, arg[0]) == 0)
-	{
-	  this->hasWrite = 1;
-	  return (tmp->ptr_fct(arg, sfd));
-	}
+	return (tmp->ptr_fct(arg, client));
       tmp = tmp->next;
     }
-  textcolor(RED, "Command not implemented", 1);
+  client->toClient = textcolor(RED, "Command not implemented", 1);
   return (1);
 }
 
-void			check_command(char *buff, int sfd,
+void			check_command(char *buff,
 				      t_map *map, t_client *client)
 {
   char			**arg;
-  char			tmp[1024];
+  char			*tmp;
 
   if (buff[0] != '/')
     {
       if (client->channel == NULL)
-	textcolor(RED, "You didn't enter a channel yet", 1);
+	client->toClient = textcolor(RED, "You didn't enter a channel yet", 1);
       else
 	{
-	  //	  cutbuff(buff, 500 - strlen(client->channel));
-	  sprintf(tmp, "PRIVMSG %s %s\r\n", client->channel, buff);
-	  write(sfd, tmp, strlen(tmp));
+	  tmp = malloc(512);
+	  cutbuff(buff, 500 - strlen(client->channel));
+	  sprintf(tmp, "PRIVMSG %s :%s\r\n", client->channel, buff);
+	  client->toServer = tmp;
 	}
     }
   else
     {
       buff++;
       arg = my_str_to_wordtab(buff, ' ');
-      command_in_the_map(map, arg, sfd);
+      command_in_the_map(map, arg, client);
     }
 }
 
-int			display_info(char *buffer, t_client *client)
+int			display_info(char *buffer,
+				     t_client *client,
+				     t_map *map)
 {
   char			**arg;
-  t_map			*map;
+  int			i;
 
-  map = init_return_code();
+  i = 0;
   if (strlen(buffer) > 0)
     {
-      textcolor(YELLOW, buffer, 1);
+      client->toClient =  textcolor(YELLOW, buffer, 1);
       arg = my_str_to_wordtab(buffer, ' ');
       while (map)
 	{
@@ -70,23 +71,22 @@ int			display_info(char *buffer, t_client *client)
 	  map = map->next;
 	}
     }
+  while (arg[i] != NULL)
+    free(arg[i++]);
+  free(arg);
   return (0);
 }
 
-void			check_input(int sfd, t_map *map,
-				    char *buffer,
+void			check_input(t_map *map,
 				    t_client *client)
 {
   char			buff[4096];
   int			length;
 
-  if (display_info(buffer, client))
-    textcolor(RED, "Error return code unknow", 1);
   if ((length = read(0, buff, 4095)) > 0)
     {
       if (length > 1)
 	buff[length - 1] = 0;
-      check_command(buff, sfd, map, client);
+      check_command(buff, map, client);
     }
-  buffer[0] = 0;
 }

@@ -5,19 +5,24 @@
 ** Login   <mathon_j@mathonj>
 **
 ** Started on  Wed Apr  1 13:29:27 2015 Jérémy MATHON
-** Last update Fri Apr 24 19:37:08 2015 Jérémy MATHON
+** Last update Sat Apr 25 16:40:41 2015 Pierre NOEL
 */
 
 #include	"client.h"
 
-int		list_channel(char **argv, int sfd)
+int		list_channel(char **argv, t_client *client)
 {
-  if (argv && sfd)
-    return (0);
+  char		*tmp;
+
+  tmp = malloc(sizeof(char) * 512);
+  strcpy(tmp, "LIST ");
+  strcat(tmp, argv[1]);
+  strcat(tmp, "\r\n");
+  client->toServer = tmp;
   return (0);
 }
 
-int		join_channel(char **argv, int sfd)
+int		join_channel(char **argv, t_client *client)
 {
   char		*tmp;
 
@@ -25,11 +30,11 @@ int		join_channel(char **argv, int sfd)
   strcpy(tmp, "JOIN ");
   strcat(tmp, argv[1]);
   strcat(tmp, "\r\n");
-  write(sfd, tmp, strlen(tmp));
+  client->toServer = tmp;
   return (0);
 }
 
-int		part_channel(char **argv, int sfd)
+int		part_channel(char **argv, t_client *client)
 {
   char		*tmp;
 
@@ -37,6 +42,6 @@ int		part_channel(char **argv, int sfd)
   strcpy(tmp, "PART ");
   strcat(tmp, argv[1]);
   strcat(tmp, "\r\n");
-  write(sfd, tmp, strlen(tmp));
+  client->toServer = tmp;
   return (0);
 }

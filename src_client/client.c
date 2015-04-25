@@ -5,9 +5,10 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Sun Mar 29 22:34:24 2015 Pierre NOEL
-** Last update Thu Apr 16 11:49:33 2015 Pierre NOEL
+** Last update Sat Apr 25 16:45:45 2015 Pierre NOEL
 */
 
+#include		<sys/select.h>
 #include		"client.h"
 
 static t_client		*init_client(t_client *client)
@@ -15,33 +16,48 @@ static t_client		*init_client(t_client *client)
   client = malloc(sizeof(t_client));
   client->nickname = NULL;
   client->channel = NULL;
+  client->toServer = NULL;
+  client->toClient = NULL;
   return (client);
 }
 
 static void		mloop(int sfd)
 {
-  int			ret;
-  char			buffer[4096];
   t_map			*map;
   t_client		*client;
+  t_map			*map2;
+  fd_set		read;
+  fd_set		write;
 
   map = NULL;
   client = NULL;
   client = init_client(client);
   map = init_map(map);
+  map2 = init_return_code();
   while (1)
     {
-      if (map->hasWrite)
+      FD_ZERO(&read);
+      FD_ZERO(&write);
+
+      FD_SET(0, &read);
+      FD_SET(1, &write);
+      FD_SET(sfd, &read);
+      FD_SET(sfd, &write);
+      if (my_select(3, &read, &write) != -1)
 	{
-	  if ((ret = read(sfd, buffer, 4096)) == -1)
-	    {
-	      fprintf(stderr, "Read failed\n");
-	      break;
-	    }
-	  map->hasWrite = 0;
+
+	  if (FD_ISSET(0, &read))
+	    check_input(map, client);
+	  if (FD_ISSET(sfd, &read))
+	    read_server(sfd, client, map2);
+
+	  if (FD_ISSET(1, &write))
+	    write_client(client);
+	  if (FD_ISSET(sfd, &write))
+	    write_server(sfd, client);
 	}
-      buffer[ret - 2] = 0;
-      check_input(sfd, map, buffer, client);
+      else
+	fprintf(stderr, "Bad fd");
     }
 }
 

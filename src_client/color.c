@@ -5,18 +5,19 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Thu Apr 23 10:56:48 2015 Pierre NOEL
-** Last update Thu Apr 23 11:38:32 2015 Pierre NOEL
+** Last update Sat Apr 25 15:04:22 2015 Pierre NOEL
 */
 
 #include			"client.h"
 
-void				textcolor(int fg, char *text, int opt)
+char				*textcolor(int fg, char *text, int opt)
 {
-  char				command[4096];
+  char				*command;
 
-  sprintf(command, "%c[%dm%s%c[0m", 27, fg + 30, text, 27);
+  command = malloc(4096);
   if (opt)
-    printf("%s\n", command);
+    sprintf(command, "%c[%dm%s%c[0m\n", 27, fg + 30, text, 27);
   else
-    printf("%s", command);
+    sprintf(command, "%c[%dm%s%c[0m", 27, fg + 30, text, 27);
+  return (command);
 }

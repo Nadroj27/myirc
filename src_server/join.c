@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Apr  8 15:50:57 2015 Pierre NOEL
-** Last update Wed Apr 22 15:52:47 2015 Pierre NOEL
+** Last update Sat Apr 25 16:30:49 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -30,7 +30,7 @@ static char			*getUsr(t_env *e,
 	{
 	  if (have_channel(tmp, channel))
 	    {
-	      info = xstrcat(info, " @");
+	      info = xstrcat(info, " +");
 	      info = xstrcat(info, tmp->nickname);
 	    }
 	}

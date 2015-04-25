@@ -5,7 +5,7 @@
 ## Login   <noel_h@epitech.net>
 ## 
 ## Started on  Wed Mar 25 10:36:32 2015 Pierre NOEL
-## Last update Thu Apr 23 11:42:11 2015 Pierre NOEL
+## Last update Sat Apr 25 16:13:02 2015 Pierre NOEL
 ##
 
 NAME_S			=		server
@@ -34,7 +34,8 @@ SRC_S			=		src_server/server.c		\
 					src_server/operation_list.c	\
 					src_server/channel.c		\
 					src_server/name.c		\
-					src_server/color.c
+					src_server/color.c		\
+					src_select/select.c
 
 SRC_C			=		src_client/client.c		\
 					src_client/my_str_to_wordtab.c	\
@@ -47,7 +48,12 @@ SRC_C			=		src_client/client.c		\
 					src_client/command.c		\
 					src_client/return_codes.c	\
 					src_client/color.c		\
-					src_client/cutBuff.c
+					src_client/cutBuff.c		\
+					src_select/select.c		\
+					src_client/read_server.c	\
+					src_client/write_server.c	\
+					src_client/write_client.c	\
+					src_client/strcat.c
 
 OBJ_S			=		$(SRC_S:.c=.o)
 

@@ -5,33 +5,43 @@
 ** Login   <mathon_j@mathonj>
 **
 ** Started on  Wed Apr  1 13:01:44 2015 Jérémy MATHON
-** Last update Sat Apr 25 14:20:13 2015 Pierre NOEL
+** Last update Sat Apr 25 16:50:53 2015 Pierre NOEL
 */
 
 #include	"client.h"
 
-int		connection_server(char **argv, int sfd)
+int		connection_server(char **argv, t_client * client)
 {
-  if (argv && sfd)
+  if (argv && client)
     return (0);
   return (0);
 }
 
-int		msg_user(char **argv, int sfd)
+int		msg_user(char **argv, t_client * client)
 {
   char		*tmp;
+  int		i;
 
-  tmp = malloc(sizeof(char) * 512);
-  strcpy(tmp, "PRIVMSG ");
-  strcat(tmp, argv[1]);
-  strcat(tmp, " ");
-  strcat(tmp, argv[2]);
-  strcat(tmp, "\r\n");
-  write(sfd, tmp, strlen(tmp));
+  i = 2;
+  if (argv[0] != 0 && argv[1] != NULL)
+    {
+      tmp = malloc(sizeof(char) * 512);
+      strcpy(tmp, "PRIVMSG ");
+      strcat(tmp, argv[1]);
+      strcat(tmp, " ");
+      while (argv[i] != NULL)
+	{
+	  strcat(tmp, argv[i]);
+	  strcat(tmp, " ");
+	  i++;
+	}
+      strcat(tmp, "\r\n");
+      client->toServer = tmp;
+    }
   return (0);
 }
 
-int		change_nickname(char **argv, int sfd)
+int		change_nickname(char **argv, t_client *client)
 {
   char		*tmp;
 
@@ -39,13 +49,13 @@ int		change_nickname(char **argv, int sfd)
   strcpy(tmp, "NICK ");
   strcat(tmp, argv[1]);
   strcat(tmp, "\r\n");
-  write(sfd, tmp, strlen(tmp));
+  client->toServer = tmp;
   return (0);
 }
 
-int		list_user(char **argv, int sfd)
+int		list_user(char **argv, t_client * client)
 {
-  if (argv && sfd)
+  if (argv && client)
     return (0);
   return (0);
 }

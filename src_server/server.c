@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Mar 25 14:38:36 2015 Pierre NOEL
-** Last update Tue Apr 14 14:01:30 2015 Pierre NOEL
+** Last update Sat Apr 25 14:52:10 2015 Pierre NOEL
 */
 
 #include		"server.h"
@@ -37,7 +37,6 @@ int			main(int ac, char **av)
   int			fd_max;
   fd_set		fd_read;
   fd_set		fd_write;
-  struct timeval	tv;
 
   if (ac != 2)
     my_error("Usage : ./server [port]", 0);
@@ -47,14 +46,10 @@ int			main(int ac, char **av)
     my_error("Port need to be positif and not overflow", 0);
   e->port = atoi(av[1]);
   add_server(e);
-  tv.tv_sec = 20;
-  tv.tv_usec = 0;
   while (1)
     {
       fd_max = my_fd_set_list(e, &fd_read, &fd_write);
-      if (select(fd_max + 1, &fd_read, &fd_write, NULL, &tv) == -1)
-	my_error_c("select failed", 1);
-      else
+      if (!my_select(fd_max, &fd_read, &fd_write))
 	my_fd_isset(e, &fd_read, &fd_write);
     }
   return (0);

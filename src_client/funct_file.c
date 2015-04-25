@@ -5,21 +5,21 @@
 ** Login   <mathon_j@mathonj>
 **
 ** Started on  Wed Apr  1 13:31:42 2015 Jérémy MATHON
-** Last update Thu Apr 16 10:44:15 2015 Pierre NOEL
+** Last update Sat Apr 25 16:42:42 2015 Pierre NOEL
 */
 
 #include	"client.h"
 
-int		send_file(char **argv, int sfd)
+int		send_file(char **argv, t_client * client)
 {
-  if (argv && sfd)
+  if (argv && client)
     return (0);
   return (0);
 }
 
-int		accept_file(char **argv, int sfd)
+int		accept_file(char **argv, t_client * client)
 {
-  if (argv && sfd)
+  if (argv && client)
     return (0);
   return (0);
 }

@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Mar 25 11:14:36 2015 Pierre NOEL
-** Last update Thu Apr 23 11:43:34 2015 Pierre NOEL
+** Last update Sat Apr 25 14:54:45 2015 Pierre NOEL
 */
 
 #ifndef			_SERVER_H_
@@ -110,5 +110,6 @@ void			add_channel(t_env *, char *);
 int			del_channel(t_env *, char *);
 int			have_channel(t_env *, char *);
 void			textcolor(int, char *, int);
+int			my_select(int, fd_set *, fd_set *);
 
 #endif			/* _SERVER_H_ */
