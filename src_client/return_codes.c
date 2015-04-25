@@ -5,10 +5,26 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Thu Apr 16 10:56:09 2015 Pierre NOEL
-** Last update Fri Apr 24 19:48:06 2015 Jérémy MATHON
+** Last update Sat Apr 25 14:36:35 2015 Pierre NOEL
 */
 
 #include			"client.h"
+
+static char			*getChannel(char *arg)
+{
+  int				i;
+  char				*tmp;
+
+  tmp = malloc(512);
+  i = 0;
+  while (arg[i] != 0 && arg[i] != '\n' && arg[i] != '\r')
+    {
+      tmp[i] = arg[i];
+      i++;
+    }
+  tmp[i] = 0;
+  return (tmp);
+}
 
 int				nickname_changed(char **arg,
 						 t_client *client)
@@ -48,11 +64,11 @@ int				channel_changed(char **arg,
     {
       if (arg[1][0] == ':')
 	arg[1]++;
-      sprintf(command, "Channel changed. New channel : %s", arg[1]);
-      textcolor(GREEN, command, 1);
-      if (client->channel != NULL)
+    if (client->channel != NULL)
 	free(client->channel);
-      client->channel = strdup(arg[1]);
+      client->channel = getChannel(arg[1]);
+      sprintf(command, "Channel changed. New channel : %s", client->channel);
+      textcolor(GREEN, command, 1);
       return (0);
     }
   return (1);

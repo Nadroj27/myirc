@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Fri Apr 10 16:26:03 2015 Pierre NOEL
-** Last update Thu Apr 23 11:45:58 2015 Pierre NOEL
+** Last update Sat Apr 25 14:24:38 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -66,7 +66,7 @@ t_env				*client_read(t_env *e, int fd)
   client = find_by_id(e, fd);
   msg = my_read_irc(fd, client);
   if ((msg != NULL && msg[0] == 0)
-      || strncmp(msg, "QUIT", 4) == 0)
+      || (strlen(msg) > 4 && strncmp(msg, "QUIT", 4) == 0))
     {
       printf("%d: Connection closed\n", fd);
       if (msg != NULL)

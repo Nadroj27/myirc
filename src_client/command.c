@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Thu Apr 16 10:47:50 2015 Pierre NOEL
-** Last update Fri Apr 24 19:50:41 2015 Jérémy MATHON
+** Last update Sat Apr 25 14:33:12 2015 Pierre NOEL
 */
 
 #include		"client.h"
@@ -40,7 +40,7 @@ void			check_command(char *buff, int sfd,
 	textcolor(RED, "You didn't enter a channel yet", 1);
       else
 	{
-	  cutbuff(buff, 500 - strlen(client->channel));
+	  //	  cutbuff(buff, 500 - strlen(client->channel));
 	  sprintf(tmp, "PRIVMSG %s %s\r\n", client->channel, buff);
 	  write(sfd, tmp, strlen(tmp));
 	}
@@ -84,7 +84,7 @@ void			check_input(int sfd, t_map *map,
     textcolor(RED, "Error return code unknow", 1);
   if ((length = read(0, buff, 4095)) > 0)
     {
-      if (length > 0)
+      if (length > 1)
 	buff[length - 1] = 0;
       check_command(buff, sfd, map, client);
     }
