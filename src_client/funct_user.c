@@ -5,7 +5,7 @@
 ** Login   <mathon_j@mathonj>
 **
 ** Started on  Wed Apr  1 13:01:44 2015 Jérémy MATHON
-** Last update Sat Apr 25 16:50:53 2015 Pierre NOEL
+** Last update Sat Apr 25 17:52:45 2015 Pierre NOEL
 */
 
 #include	"client.h"
@@ -38,6 +38,8 @@ int		msg_user(char **argv, t_client * client)
       strcat(tmp, "\r\n");
       client->toServer = tmp;
     }
+  else
+    client->toClient = textcolor(RED, "You need more argument", 1);
   return (0);
 }
 
@@ -45,11 +47,16 @@ int		change_nickname(char **argv, t_client *client)
 {
   char		*tmp;
 
+  if (argv[1] != NULL)
+    {
   tmp = malloc(sizeof(char) * 512);
   strcpy(tmp, "NICK ");
   strcat(tmp, argv[1]);
   strcat(tmp, "\r\n");
   client->toServer = tmp;
+    }
+  else
+    client->toClient = textcolor(RED, "You need more argument", 1);
   return (0);
 }
 

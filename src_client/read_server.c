@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Sat Apr 25 14:59:14 2015 Pierre NOEL
-** Last update Sat Apr 25 16:39:56 2015 Pierre NOEL
+** Last update Sat Apr 25 17:47:56 2015 Pierre NOEL
 */
 
 #include			"client.h"
@@ -21,6 +21,8 @@ void				read_server(int sfd,
     fprintf(stderr, "Read failed\n");
   else
     {
+      if (ret == 0)
+	exit(EXIT_SUCCESS);
       buffer[ret - 2] = 0;
       if (display_info(buffer, client, map))
 	client->toClient = xstrcat(client->toClient,

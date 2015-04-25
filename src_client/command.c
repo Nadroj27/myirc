@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Thu Apr 16 10:47:50 2015 Pierre NOEL
-** Last update Sat Apr 25 16:47:14 2015 Pierre NOEL
+** Last update Sat Apr 25 17:54:09 2015 Pierre NOEL
 */
 
 #include		"client.h"
@@ -47,8 +47,11 @@ void			check_command(char *buff,
   else
     {
       buff++;
-      arg = my_str_to_wordtab(buff, ' ');
-      command_in_the_map(map, arg, client);
+      if (strlen(buff) > 0)
+	{
+	  arg = my_str_to_wordtab(buff, ' ');
+	  command_in_the_map(map, arg, client);
+	}
     }
 }
 
