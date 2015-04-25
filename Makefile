@@ -5,7 +5,7 @@
 ## Login   <noel_h@epitech.net>
 ## 
 ## Started on  Wed Mar 25 10:36:32 2015 Pierre NOEL
-## Last update Sat Apr 25 16:13:02 2015 Pierre NOEL
+## Last update Sat Apr 25 20:52:39 2015 Jérémy MATHON
 ##
 
 NAME_S			=		server
@@ -47,6 +47,7 @@ SRC_C			=		src_client/client.c		\
 					src_client/error.c		\
 					src_client/command.c		\
 					src_client/return_codes.c	\
+					src_client/return_codes_bis.c	\
 					src_client/color.c		\
 					src_client/cutBuff.c		\
 					src_select/select.c		\
