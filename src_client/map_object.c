@@ -5,7 +5,7 @@
 ** Login   <mathon_j@mathonj>
 **
 ** Started on  Tue Mar 31 14:16:27 2015 Jérémy MATHON
-** Last update Sat Apr 25 16:43:34 2015 Pierre NOEL
+** Last update Tue Apr 28 16:19:42 2015 Pierre NOEL
 */
 
 #include	"client.h"
@@ -17,6 +17,8 @@ t_map		*init_map(t_map *this)
   this = add_element(this, "join", join_channel);
   this = add_element(this, "msg", msg_user);
   this = add_element(this, "part", part_channel);
+  this = add_element(this, "list", list_channel);
+  this = add_element(this, "users", list_user);
   return (this);
 }
 

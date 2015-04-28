@@ -5,7 +5,7 @@
 ** Login   <mathon_j@mathonj>
 **
 ** Started on  Wed Apr  1 13:01:44 2015 Jérémy MATHON
-** Last update Sat Apr 25 17:52:45 2015 Pierre NOEL
+** Last update Tue Apr 28 16:22:52 2015 Pierre NOEL
 */
 
 #include	"client.h"
@@ -49,11 +49,11 @@ int		change_nickname(char **argv, t_client *client)
 
   if (argv[1] != NULL)
     {
-  tmp = malloc(sizeof(char) * 512);
-  strcpy(tmp, "NICK ");
-  strcat(tmp, argv[1]);
-  strcat(tmp, "\r\n");
-  client->toServer = tmp;
+      tmp = malloc(sizeof(char) * 512);
+      strcpy(tmp, "NICK ");
+      strcat(tmp, argv[1]);
+      strcat(tmp, "\r\n");
+      client->toServer = tmp;
     }
   else
     client->toClient = textcolor(RED, "You need more argument", 1);
@@ -62,7 +62,19 @@ int		change_nickname(char **argv, t_client *client)
 
 int		list_user(char **argv, t_client * client)
 {
-  if (argv && client)
-    return (0);
+  char		*tmp;
+
+  if (client->channel != NULL)
+    {
+      tmp = malloc(sizeof(char) * 512);
+      strcpy(tmp, "NAMES ");
+      strcat(tmp, client->channel);
+      strcat(tmp, "\r\n");
+      client->toServer = tmp;
+    }
+  else
+    client->toClient = textcolor(RED, "You are not in a channel yet", 1);
+  if (argv[1] != NULL)
+    client->toClient = textcolor(RED, "You do not need more argument", 1);
   return (0);
 }
