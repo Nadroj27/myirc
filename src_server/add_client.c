@@ -5,21 +5,25 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Fri Apr 10 16:30:37 2015 Pierre NOEL
-** Last update Wed Apr 22 16:25:50 2015 Pierre NOEL
+** Last update Tue Apr 28 16:38:07 2015 Pierre NOEL
 */
 
 #include			"server.h"
 
-static void			getResponse(t_env *a)
+static void			getResponse(t_env *a, t_env *server)
 {
   a->return_code = malloc(512);
   if (a->return_code == NULL)
     my_error("Malloc failed", 0);
-  if (0 > sprintf(a->return_code, "001%s002%s003%s004%s",
-		  ":Welcome to this IRC\r\n",
-		  ":Your host is serv_irc, running version 1.1\r\n",
-		  ":This server was created april, 16th 2015\r\n",
-		  ":localhost 1.1 u|o 0|1\r\n"))
+  if (0 > sprintf(a->return_code, "001%s002%s003%s%s%s004%s%s%s",
+		  " RPL_WELCOME :Welcome to this IRC\r\n",
+		  " RPL_YOURHOST :Your host is serv_irc, running version 1.1\r\n",
+		  " RPL_CREATED :This server was created ",
+		  __DATE__,
+		  "\r\n",
+		  " RPL_MYINFO :",
+		  server->host,
+		  "\r\n"))
     response_fail(&(a->return_code), a->id);
 }
 
@@ -47,6 +51,6 @@ void				add_client(t_env *e, int s)
       a->next = NULL;
       a->channels = NULL;
       a->buffer = NULL;
-      getResponse(a);
+      getResponse(a, e);
     }
 }

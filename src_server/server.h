@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Mar 25 11:14:36 2015 Pierre NOEL
-** Last update Sat Apr 25 14:54:45 2015 Pierre NOEL
+** Last update Tue Apr 28 16:37:17 2015 Pierre NOEL
 */
 
 #ifndef			_SERVER_H_
@@ -23,6 +23,10 @@
 # include		<errno.h>
 # include		<string.h>
 # include		<math.h>
+
+#ifndef			__DATE__
+# define		__DATE__
+#endif
 
 # define		FD_FREE 0
 # define		FD_CLIENT 1
