@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Apr  8 14:51:24 2015 Pierre NOEL
-** Last update Wed Apr 22 16:38:04 2015 Pierre NOEL
+** Last update Wed Apr 29 09:09:10 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -79,11 +79,11 @@ char				*getRPL_list(char **result,
   i = 0;
   while (result[i] != NULL)
     {
-      info = xstrcat(info, "322 ");
+      info = xstrcat(info, "322 RPL_LIST ");
       info = xstrcat(info, nickname);
       info = xstrcat(info, " ");
       info = xstrcat(info, result[i]);
-      info = xstrcat(info, " 1 :No subject\r\n");
+      info = xstrcat(info, " 0 :No subject\r\n");
       i++;
     }
   return (info);
@@ -98,8 +98,8 @@ void				my_list(t_env *e, t_cmd *cmd, t_env *client)
     my_error("Malloc failed", 0);
   info[0] = 0;
   result = getResult(e, cmd);
-  if (0 > sprintf(info, "%s%s323 %s :End of /LIST\r\n",
-		  "321 Channel:Users Name\r\n",
+  if (0 > sprintf(info, "%s%s323 RPL_LISTEND %s :End of /LIST\r\n",
+		  "321 RPL_LISTSTART Channel:Users Name\r\n",
 		  getRPL_list(result, client->nickname),
 		  client->nickname))
     my_error_c("Unable to return response", 0);

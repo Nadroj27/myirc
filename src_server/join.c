@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Wed Apr  8 15:50:57 2015 Pierre NOEL
-** Last update Sat Apr 25 16:30:49 2015 Pierre NOEL
+** Last update Wed Apr 29 09:18:47 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -20,7 +20,7 @@ static char			*getUsr(t_env *e,
   if ((info = malloc(512)) == NULL)
     my_error("Malloc failed", 0);
   info[0] = 0;
-  if (0 > sprintf(info, "353 %s = %s :",
+  if (0 > sprintf(info, "353 RPL_NAMREPLY %s = %s :",
 		  c, channel))
     return (NULL);
   tmp = e;
@@ -46,7 +46,8 @@ static char			*getEnd(char *n, char *c)
 
   if ((info = malloc(35 + 2 * strlen(n) + strlen(c))) == NULL)
     my_error("Failed Malloc", 0);
-  if (0 > sprintf(info, "366 %s %s :End of /NAMES list\r\n", n, c))
+  if (0 > sprintf(info, "366 RPL_ENDOFNAMES %s %s %s",
+		  n, c, ":End of /NAMES list\r\n"))
     {
       response_fail(&(info), -1);
       return (NULL);
@@ -64,7 +65,7 @@ void				my_join(t_env *e,
 	    my_error("Malloc failed", 0);
       if (cmd->opt[0] == NULL)
 	{
-	  if (0 > sprintf(client->return_code, "461\r\n"))
+	  if (0 > sprintf(client->return_code, "461 ERR_NEEDMOREPARAMS \r\n"))
 	    response_fail(&(client->return_code), client->id);
 	}
       else

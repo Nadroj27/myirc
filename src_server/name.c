@@ -5,7 +5,7 @@
 ** Login   <noel_h@epitech.net>
 **
 ** Started on  Tue Apr 14 17:54:57 2015 Pierre NOEL
-** Last update Tue Apr 28 16:23:37 2015 Pierre NOEL
+** Last update Wed Apr 29 09:10:41 2015 Pierre NOEL
 */
 
 #include			"server.h"
@@ -20,7 +20,7 @@ static char			*getUsr(t_env *e,
   if ((info = malloc(512)) == NULL)
     my_error("Malloc failed", 0);
   info[0] = 0;
-  if (0 > sprintf(info, "353 %s = %s :",
+  if (0 > sprintf(info, "353 RPL_NAMREPLY %s = %s :",
 		  c, channel))
     return (NULL);
   tmp = e;
@@ -46,7 +46,8 @@ static char			*getEnd(char *n, char *c)
 
   if ((info = malloc(35 + 2 * strlen(n) + strlen(c))) == NULL)
     my_error("Failed Malloc", 0);
-  if (0 > sprintf(info, "366 %s %s :End of /NAMES list\r\n", n, c))
+  if (0 > sprintf(info, "366 RPL_ENDOFNAMES %s %s %s",
+		  n, c, ":End of /NAMES list\r\n"))
     {
       response_fail(&(info), -1);
       return (NULL);
